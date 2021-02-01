@@ -1,3 +1,40 @@
-Elissa Martial and Anya Shulka
+LAKESIDE TEXTBOOK EXCHANGE // FEATURES LIST
+
+Login System: 
+> incorporate Google auth
+
+Sell Books Page:
+> input the book's selling price 
+	> maybe scan for retail price and don't allow selling price to be higher
+> choose from a list of confirmed lakeside department books, or "other" if your textbook doesn't match any of those
+> choose department (spanish, calculus, etc.) 
+> condition (new, used, etc.) 
 
 
+Search Books Page: 
+> sort/search by department
+
+
+> Buy Books Page:
+	> Paypal incorporation
+
+
+USER EXPERIENCE FLOW : BUYERS
+------------------------------
+User enters app
+Signs in / signs up
+Searches for a book
+Finds a book that they want
+Add to cart
+Buy the book(s) (PayPal)
+	> maybe send an email to the seller
+Book gets taken off the list of available books
+
+
+
+USER EXPERIENCE FLOW : SELLERS
+-----------------
+User enters app
+Signs in / up
+Adds a listing 
+Can edit price
