@@ -23,11 +23,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  mysql1: ^0.17.1 # adds mysql functionality
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
+  english_words: ^3.1.5 # adding english words package            
 
 dev_dependencies:
   flutter_test:
