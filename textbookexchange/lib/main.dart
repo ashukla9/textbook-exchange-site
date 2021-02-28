@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:firebase_database/firebase_database.dart';
 import 'screens/random_words.dart'; //importing the random words file from the screens folder
 import 'screens/home.dart'; //importing the home screen
 import 'package:textbookexchange/routes.dart'; //importing the routes
@@ -8,6 +8,8 @@ void main() => runApp(MyApp()); //main method runs "MyApp"
 //MyApp is "core" or "root" widget
 
 class MyApp extends StatelessWidget {
+  final databaseReference =
+      FirebaseDatabase.instance.reference(); // adding database variable
   //immutable widget, stateless
   @override
   Widget build(BuildContext context) {
