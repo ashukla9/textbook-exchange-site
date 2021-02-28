@@ -8,8 +8,6 @@ void main() => runApp(MyApp()); //main method runs "MyApp"
 //MyApp is "core" or "root" widget
 
 class MyApp extends StatelessWidget {
-  final databaseReference =
-      FirebaseDatabase.instance.reference(); // adding database variable
   //immutable widget, stateless
   @override
   Widget build(BuildContext context) {
