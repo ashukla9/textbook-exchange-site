@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  english_words: ^3.1.5 # adding english words package
   flutter:
     sdk: flutter
   firebase_core : ^0.7.0
