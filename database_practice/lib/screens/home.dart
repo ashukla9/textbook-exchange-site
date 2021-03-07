@@ -3,10 +3,6 @@
 //import statements: You basically always have to import flutter/material.dart
 import 'package:flutter/material.dart';
 
-import 'package:database_practice/routes.dart';
-
-import 'random_words.dart';
-
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -18,10 +14,22 @@ class HomeScreen extends StatelessWidget {
     body: Container(
         child: Column(
           children: [
-            Row( children: [
+            Wrap( children: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => RandomWords()));
+                  Navigator.pushNamed(context, '/sellBooks');
+                },
+                child: Text("Sell Books")
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/buyBooks');
+                },
+                child: Text("Buy Books")
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/randomWords');
                 },
                 child: Text("Random Words")
               ),
@@ -35,8 +43,7 @@ class HomeScreen extends StatelessWidget {
               ]
             )
             
-            // a list view of all the entries ig BuildListView()
-            
+
           ],
         ),
       
