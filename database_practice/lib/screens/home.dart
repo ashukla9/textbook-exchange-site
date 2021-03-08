@@ -8,12 +8,32 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: Padding(
+            padding: EdgeInsets.only(left: 12),
+                child: Image.asset(
+                'assets/lakesidelogo.jpg', //replace this with either our own logo or smth
+              ),
+            ),
       title: Text('Textbook Exchange Home'),
-    
+      
     ),
+
     body: Container(
         child: Column(
           children: [
+            SizedBox(height: 20), //adding space between widgets
+            
+            Text(
+              'LS Textbook Xchange',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 50, //how to specify?
+                ),
+              ),
+
+            SizedBox(height: 20), //adding space between widgets
+
             Wrap( children: [
               ElevatedButton(
                 onPressed: () {
@@ -39,11 +59,10 @@ class HomeScreen extends StatelessWidget {
                 },
                 child: Text("Database Test")
               ),
-  
-              ]
-            )
-            
 
+              ]
+            ),
+            
           ],
         ),
       

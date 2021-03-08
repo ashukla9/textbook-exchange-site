@@ -24,7 +24,7 @@ class CustomTheme { //I named it "CustomTheme" but we can definitely name it som
       ),
 
       // Styling elevated buttons (the type we're using on all our pages right now)
-      elevatedButtonTheme: ElevatedButtonThemeData(
+      elevatedButtonTheme: ElevatedButtonThemeData( // https://www.woolha.com/tutorials/flutter-using-elevatedbutton-widget-examples
         style: ElevatedButton.styleFrom(
               primary: CustomColors.lsMaroon,
             ),
