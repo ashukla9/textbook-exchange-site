@@ -2,6 +2,7 @@
 
 //import statements: You basically always have to import flutter/material.dart
 import 'package:flutter/material.dart';
+import 'package:database_practice/static/colors.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -49,6 +50,12 @@ class HomeScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
+                  Navigator.pushNamed(context, '/cart');
+                },
+                child: Text("Cart")
+              ),
+              ElevatedButton(
+                onPressed: () {
                   Navigator.pushNamed(context, '/randomWords');
                 },
                 child: Text("Random Words")
@@ -59,14 +66,46 @@ class HomeScreen extends StatelessWidget {
                 },
                 child: Text("Database Test")
               ),
-
+              
               ]
             ),
             
           ],
         ),
       
-      )
+      ),
+
+      endDrawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('Drawer Header'),
+              decoration: BoxDecoration(
+                color: CustomColors.lsMaroon,
+              ),
+            ),
+            ListTile(
+              title: Text('Buy Books'),
+              onTap: () {
+                Navigator.pushNamed(context, '/buyBooks');
+              },
+            ),
+            ListTile(
+              title: Text('Sell Books'),
+              onTap: () { Navigator.pushNamed(context, '/buyBooks'); },
+            ),
+            ListTile(
+              title: Text('Profile'),
+              onTap: () { Navigator.pushNamed(context, '/profile'); },
+            ),
+          ],
+        ),
+      ),
     
     );
   }
