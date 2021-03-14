@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "13084818462",
+    "firebase_url": "https://baby-apps-name-db-8a0a8-default-rtdb.firebaseio.com",
     "project_id": "baby-apps-name-db-8a0a8",
     "storage_bucket": "baby-apps-name-db-8a0a8.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "13084818462-gnb2q67ukm0afuq5d41elpg3iq5cj2ge.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.database_practice",
+            "certificate_hash": "51da92603c948169c63d99f91a71c855af23c641"
+          }
+        },
         {
           "client_id": "13084818462-07knkia9sdcklntu58cn934b59ftjjrv.apps.googleusercontent.com",
           "client_type": 3

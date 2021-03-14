@@ -24,8 +24,11 @@ dependencies:
   english_words: ^3.1.5 # adding english words package
   flutter:
     sdk: flutter
-  firebase_core : ^0.7.0
-  cloud_firestore: ^0.16.0+1
+  firebase_core: ^1.0.1
+  cloud_firestore: ^1.0.1
+  firebase_database: ^6.1.0
+  firebase_auth: ^1.0.1
+  google_sign_in: ^4.0.4
 
 
   # The following adds the Cupertino Icons font to your application.

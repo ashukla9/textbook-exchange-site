@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:firebase_core/firebase_core.dart'; //added based on this medium tutorial: https://medium.com/firebase-tips-tricks/how-to-use-cloud-firestore-in-flutter-9ea80593ca40
 import 'package:flutter/material.dart';
 
@@ -17,12 +15,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-       initialRoute: "/",
+      initialRoute: "/",
       routes:
-        routes, //routes is the Map we have in routes.dart [source: https://morioh.com/p/99b14cbf048e]
-      theme: 
-       CustomTheme.lightTheme,
+          routes, //routes is the Map we have in routes.dart [source: https://morioh.com/p/99b14cbf048e]
+      theme: CustomTheme.lightTheme,
     );
   }
 }
-
