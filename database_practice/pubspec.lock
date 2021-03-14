@@ -14,7 +14,14 @@ packages:
       name: boolean_selector
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.0-nullsafety.1"
+  braintree_payment:
+    dependency: "direct main"
+    description:
+      name: braintree_payment
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.4"
   characters:
     dependency: transitive
     description:

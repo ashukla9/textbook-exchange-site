@@ -1,3 +1,6 @@
+//I added the login function to sellbooks so that I could see what was going on without
+//having to add a new button
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -78,3 +81,5 @@ class _SellbooksState extends State<Sellbooks> {
     });
   }
 }
+
+// add a function for 'list book' -- adds a book to the database, to be 'sold'
