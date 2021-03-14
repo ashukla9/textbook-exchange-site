@@ -14,7 +14,7 @@ packages:
       name: boolean_selector
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.0-nullsafety.1"
   braintree_payment:
     dependency: "direct main"
     description:
