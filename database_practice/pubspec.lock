@@ -14,14 +14,7 @@ packages:
       name: boolean_selector
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0-nullsafety.1"
-  braintree_payment:
-    dependency: "direct main"
-    description:
-      name: braintree_payment
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.4"
+    version: "2.1.0"
   characters:
     dependency: transitive
     description:
@@ -162,21 +155,21 @@ packages:
       name: google_sign_in
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.5.9"
+    version: "5.0.0"
   google_sign_in_platform_interface:
     dependency: transitive
     description:
       name: google_sign_in_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.2"
+    version: "2.0.1"
   google_sign_in_web:
     dependency: transitive
     description:
       name: google_sign_in_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.2"
+    version: "0.10.0"
   http_parser:
     dependency: transitive
     description:
@@ -232,7 +225,7 @@ packages:
       name: quiver
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.5"
+    version: "3.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -295,5 +288,5 @@ packages:
     source: hosted
     version: "2.1.0"
 sdks:
-  dart: ">=2.12.0-0.0 <3.0.0"
-  flutter: ">=1.12.13+hotfix.5"
+  dart: ">=2.12.0-259.9.beta <3.0.0"
+  flutter: ">=1.20.0"
