@@ -13,6 +13,7 @@ class Sellbooks extends StatefulWidget {
 }
 
 User _user; //changed based on updated documentation
+String username;
 
 class _SellbooksState extends State<Sellbooks> {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -67,6 +68,7 @@ class _SellbooksState extends State<Sellbooks> {
     UserCredential result = (await _auth.signInWithCredential(credential));
 
     _user = result.user;
+    username = _user.displayName;
 
     setState(() {
       isSignIn = true;
