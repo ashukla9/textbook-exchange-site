@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'sellbook.dart';
 
 class BuyBooks extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class BuyBooks extends StatefulWidget {
 
 String bookName;
 String price;
+String _user = "Anya";
 
 class _BuyBooksState extends State<BuyBooks> {
   final database = FirebaseFirestore.instance;
@@ -48,7 +50,8 @@ class _BuyBooksState extends State<BuyBooks> {
               onPressed: () async {
                 await database
                     .collection("baby")
-                    .add({
+                    .doc(_user)
+                    .set({
                       "name": _titleController.text,
                       "votes": (int.parse(_priceController.text)),
                     })

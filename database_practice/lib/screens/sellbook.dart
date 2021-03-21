@@ -12,9 +12,10 @@ class Sellbooks extends StatefulWidget {
   }
 }
 
+User _user; //changed based on updated documentation
+
 class _SellbooksState extends State<Sellbooks> {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  User _user; //changed based on updated documentation
 
   GoogleSignIn _googleSignIn = new GoogleSignIn();
   @override
