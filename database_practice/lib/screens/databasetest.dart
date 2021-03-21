@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart'; //added based on this medium tutorial: https://medium.com/firebase-tips-tricks/how-to-use-cloud-firestore-in-flutter-9ea80593ca40
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -18,16 +17,6 @@ class _MyHomePageState extends State<MyHomePage> {
           //CURRENTLY IN THE MIDDLE OF PAGE --> TO FIX
           children: [
             _buildBody(context),
-            Center(
-                child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FormPage()),
-                );
-              },
-              child: Text("Go Back!"),
-            )),
           ],
         ));
   }
@@ -90,60 +79,3 @@ class Record {
   @override
   String toString() => "Record<$name:$votes>";
 }
-
-//////////////////////////
-class FormPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Form Page')),
-      body: MyCustomForm(),
-    );
-  }
-}
-
-class MyCustomForm extends StatefulWidget {
-  @override
-  MyCustomFormState createState() {
-    return MyCustomFormState();
-  }
-}
-
-class MyCustomFormState extends State<MyCustomForm> {
-  final _formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
-  final database = FirebaseFirestore.instance.collection('baby');
-
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-        key: _formKey,
-        child: Column(children: <Widget>[
-          TextFormField(
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          ElevatedButton(
-            onPressed: () {
-              // CURRENTLY ONLY ADDING RANDOM ID FILES TO DATABASE
-              // IF YOU ATTEMPT TO GO BACK A PAGE, WILL NOT WORK AFTER DATA IS SENT
-              // MUST DELETE NULL DATA AND RELOAD
-              if (_formKey.currentState.validate()) {
-                database.add({"name": nameController.text}).then((_) {
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text("success")));
-                  nameController.clear();
-                });
-              }
-            },
-            child: Text("Submit"),
-          )
-        ]));
-  }
-
-}
-
