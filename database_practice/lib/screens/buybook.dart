@@ -11,9 +11,9 @@ class BuyBooks extends StatefulWidget {
 
 String bookName;
 String price;
+final database = FirebaseFirestore.instance;
 
 class _BuyBooksState extends State<BuyBooks> {
-  final database = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     TextEditingController _titleController = new TextEditingController();
@@ -50,9 +50,11 @@ class _BuyBooksState extends State<BuyBooks> {
                 await database
                     .collection("baby")
                     .doc(username)
+                    .collection("books")
+                    .doc(_titleController.text)
                     .set({
                       "name": _titleController.text,
-                      "votes": (int.parse(_priceController.text)),
+                      "price": (int.parse(_priceController.text)),
                     })
                     .then((value) => print("User added"))
                     .catchError((error) => print("Failed to add user"));
