@@ -58,20 +58,6 @@ class HomeScreen extends StatelessWidget {
                 child: Text("Login/Sign Up")
                 ),
 
-                ElevatedButton( //make this bigger!
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.black,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                  textStyle: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  )
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/databaseTesting');
-                },
-                child: Text("database test")
-                ),
              ]),
           ],
         ),

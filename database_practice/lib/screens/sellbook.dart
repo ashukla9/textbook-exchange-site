@@ -11,12 +11,13 @@ class SellBooks extends StatefulWidget {
   }
 }
 
-
 class _SellBooksState extends State<SellBooks> {
   @override
   Widget build(BuildContext context) {
     TextEditingController _titleController = new TextEditingController();
     TextEditingController _priceController = new TextEditingController();
+    
+    //imported from database.dart, basic properties of a book
     _titleController.text = bookName;
     _priceController.text = price;
 
@@ -29,7 +30,7 @@ class _SellBooksState extends State<SellBooks> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             //accepting input from user to list a textbook
-            Text("Enter the name of your textbook"),
+            Text("Enter the name of your textbook:"),
             Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: TextField(
@@ -37,7 +38,7 @@ class _SellBooksState extends State<SellBooks> {
                   controller: _titleController,
                   autofocus: true,
                 )),
-            Text("Enter the price of your textbook"),
+            Text("Enter the price of your textbook:"),
             Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: TextField(
@@ -49,18 +50,17 @@ class _SellBooksState extends State<SellBooks> {
               child: Text("Submit"),
               onPressed: () async {
                 await database
-                    .collection("baby")
-                    .doc(username)
                     .collection("books")
                     .doc(_titleController.text)
                     .set({
                       "name": _titleController.text,
-                      "price": (int.parse(_priceController.text)),
+                      "price": (double.parse(_priceController.text)),
+                      //somehow it's autopopulating the user field but I DON'T KNOW HOW LMAO
                     })
-                    .then((value) => print("Textbook added"))
+                    .then((value) => print("Textbook added")) // it's not doing this either
                     //if there is an error
-                    .catchError((error) => print("Failed to add textbook"));
-                Navigator.of(context).popUntil((route) => route.isFirst);
+                    .catchError((error) => print("Failed to add textbook")); //or this 
+                Navigator.of(context).popUntil((route) => route.isFirst); //change this to reset to blank form
               },
             ),
           ],

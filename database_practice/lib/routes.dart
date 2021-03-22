@@ -4,7 +4,7 @@ import 'screens/sellbook.dart';
 import 'screens/buybook.dart';
 import 'screens/login.dart';
 import 'screens/cart.dart';
-
+import 'screens/profile.dart';
 import 'screens/random_words.dart';
 import 'screens/databasetest.dart';
 
@@ -16,7 +16,8 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   '/buyBooks': (BuildContext context) => BuyBooks(),
   '/sellBooks': (BuildContext context) => SellBooks(),
   '/login': (BuildContext context) => Login(),
-  // '/profile':
+  //'/profile': (BuildContext context) => UserInfoScreen(),
+
   //'/cart': (BuildContext context) => Pay(),
 
   //removed random words

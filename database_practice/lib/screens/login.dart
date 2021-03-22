@@ -13,6 +13,7 @@ class Login extends StatefulWidget {
 
 User _user; //changed based on updated documentation
 String username;
+String uid;
 
 class _LoginState extends State<Login> {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -68,6 +69,7 @@ class _LoginState extends State<Login> {
 
     _user = result.user;
     username = _user.displayName;
+    uid = _user.uid;
 
     setState(() {
       isSignIn = true;
@@ -82,4 +84,6 @@ class _LoginState extends State<Login> {
       });
     });
   }
+  
 }
+

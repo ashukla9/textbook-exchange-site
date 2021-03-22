@@ -9,5 +9,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 String bookName;
 String price;
+String user;
 
 final database = FirebaseFirestore.instance;
