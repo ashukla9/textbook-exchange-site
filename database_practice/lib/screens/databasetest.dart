@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:database_practice/screens/buybook.dart';
 
-
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() {
@@ -20,7 +19,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildBody(BuildContext context) {
-    database.collection("baby").get().then((querySnapshot) {
+    /*   database.collection("baby").get().then((querySnapshot) {
   querySnapshot.docs.forEach((result) {
     database
         .collection("baby")
@@ -34,8 +33,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   });
 });
-}
-    /*
+} */
+
     return StreamBuilder<QuerySnapshot>(
       // changed bc of Firebase documentation
       stream: FirebaseFirestore.instance
@@ -96,4 +95,4 @@ class Record {
 
   @override
   String toString() => "Record<$name:$price>";
-} */
+}
