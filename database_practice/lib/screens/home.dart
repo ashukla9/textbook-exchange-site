@@ -51,9 +51,9 @@ class HomeScreen extends StatelessWidget {
                   child: Text("Cart")),
               ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/randomWords');
+                    Navigator.pushNamed(context, '/login');
                   },
-                  child: Text("Random Words")),
+                  child: Text("Login/Sign Up")),
               ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/databaseTesting');

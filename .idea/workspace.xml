@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="62d7b1e5-6aa6-4e96-827a-5de3db038319" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/database_practice/lib/screens/sellbook.dart" beforeDir="false" afterPath="$PROJECT_DIR$/database_practice/lib/screens/sellbook.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database_practice/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/database_practice/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/textbookexchange/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/textbookexchange/pubspec.lock" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1ptyomzaEb9Yw4opn4Nyu558cT4" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="emulator" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="62d7b1e5-6aa6-4e96-827a-5de3db038319" name="Default Changelist" comment="" />
+      <created>1616016858758</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1616016858758</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="110" y="120" width="980" height="520" key="AVDManager" timestamp="1616019431338">
+      <screen x="0" y="0" width="1200" height="760" />
+    </state>
+    <state x="110" y="120" width="980" height="520" key="AVDManager/0.0.1200.760@0.0.1200.760" timestamp="1616019431338" />
+    <state x="110" y="26" key="SettingsEditor" timestamp="1616019146172">
+      <screen x="0" y="0" width="1200" height="760" />
+    </state>
+    <state x="110" y="26" key="SettingsEditor/0.0.1200.760@0.0.1200.760" timestamp="1616019146172" />
+    <state x="0" y="0" width="585" height="760" key="find.popup" timestamp="1616017138848">
+      <screen x="0" y="0" width="1200" height="760" />
+    </state>
+    <state x="0" y="0" width="585" height="760" key="find.popup/0.0.1200.760@0.0.1200.760" timestamp="1616017138848" />
+    <state x="258" y="173" key="run.anything.popup" timestamp="1616017126093">
+      <screen x="0" y="0" width="1200" height="760" />
+    </state>
+    <state x="258" y="173" key="run.anything.popup/0.0.1200.760@0.0.1200.760" timestamp="1616017126093" />
+    <state x="264" y="81" width="672" height="678" key="search.everywhere.popup" timestamp="1616019164381">
+      <screen x="0" y="0" width="1200" height="760" />
+    </state>
+    <state x="264" y="81" width="672" height="678" key="search.everywhere.popup/0.0.1200.760@0.0.1200.760" timestamp="1616019164381" />
+  </component>
+</project>

@@ -1,88 +1,69 @@
-//I added the login function to sellbooks so that I could see what was going on without
-//having to add a new button
-
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
-class Sellbooks extends StatefulWidget {
+import 'login.dart'; //gets the username variable
+
+import 'package:database_practice/database.dart';
+
+class SellBooks extends StatefulWidget {
   @override
-  _SellbooksState createState() {
-    return _SellbooksState();
+  _SellBooksState createState() {
+    return _SellBooksState();
   }
 }
 
-User _user; //changed based on updated documentation
-String username;
 
-class _SellbooksState extends State<Sellbooks> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-
-  GoogleSignIn _googleSignIn = new GoogleSignIn();
+class _SellBooksState extends State<SellBooks> {
   @override
   Widget build(BuildContext context) {
+    TextEditingController _titleController = new TextEditingController();
+    TextEditingController _priceController = new TextEditingController();
+    _titleController.text = bookName;
+    _priceController.text = price;
+
     return Scaffold(
         appBar: AppBar(
-          title: Text('Google Authentication'),
-        ),
-        body: isSignIn
-            ? Center(
-                child: Column(
-                  children: <Widget>[
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(_user.photoURL),
-                    ),
-                    Text(_user.displayName),
-                    OutlinedButton(
-                      onPressed: () {
-                        googleSignOut();
-                      },
-                      child: Text("Logout"),
-                    )
-                  ],
-                ),
-              )
-            : Center(
-                child: OutlinedButton(
-                  onPressed: () {
-                    handleSignIn();
-                  },
-                  child: Text("Sign In with Google"),
-                ),
-              ));
-  }
-
-  bool isSignIn = false;
-
-  Future<void> handleSignIn() async {
-    GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
-    GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount.authentication;
-
-//changed based on updated documentation
-    GoogleAuthCredential credential = GoogleAuthProvider.credential(
-        idToken: googleSignInAuthentication.idToken,
-        accessToken: googleSignInAuthentication.accessToken);
-
-//changed based on updated documentation
-    UserCredential result = (await _auth.signInWithCredential(credential));
-
-    _user = result.user;
-    username = _user.displayName;
-
-    setState(() {
-      isSignIn = true;
-    });
-  }
-
-  Future<void> googleSignOut() async {
-    await _auth.signOut().then((onValue) {
-      _googleSignIn.signOut;
-      setState(() {
-        isSignIn = false;
-      });
-    });
+            title: Text(
+                "Sell Books") //will change this once we switch everything around and put it on the right pages
+            ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            //accepting input from user to list a textbook
+            Text("Enter the name of your textbook"),
+            Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: TextField(
+                  //controller is basically 'variable', in this case titlecontroller is the private variable for the title
+                  controller: _titleController,
+                  autofocus: true,
+                )),
+            Text("Enter the price of your textbook"),
+            Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: TextField(
+                  controller: _priceController,
+                  autofocus: true,
+                  keyboardType: TextInputType.number,
+                )),
+            ElevatedButton(
+              child: Text("Submit"),
+              onPressed: () async {
+                await database
+                    .collection("baby")
+                    .doc(username)
+                    .collection("books")
+                    .doc(_titleController.text)
+                    .set({
+                      "name": _titleController.text,
+                      "price": (int.parse(_priceController.text)),
+                    })
+                    .then((value) => print("Textbook added"))
+                    //if there is an error
+                    .catchError((error) => print("Failed to add textbook"));
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              },
+            ),
+          ],
+        ));
   }
 }
-
-// add a function for 'list book' -- adds a book to the database, to be 'sold'
