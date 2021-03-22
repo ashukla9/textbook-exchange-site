@@ -83,6 +83,3 @@ class _LoginState extends State<Login> {
     });
   }
 }
-
-// add a function for 'list book' -- adds a book to the database, to be 'sold'
-

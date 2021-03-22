@@ -3,6 +3,7 @@
 //import statements: You basically always have to import flutter/material.dart
 import 'package:flutter/material.dart';
 import 'package:database_practice/static/colors.dart';
+import 'login.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -15,9 +16,10 @@ class HomeScreen extends StatelessWidget {
             'assets/lakesidelogo.jpg', //replace this with either our own logo or smth
           ),
         ),
-        title: Text('Textbook Exchange Home'),
+        title: Text('Textbook Exchange'),
       ),
       body: Container(
+        color: CustomColors.lsMaroon,
         child: Column(
           children: [
             SizedBox(height: 20), //adding space between widgets
@@ -28,41 +30,53 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 50, //how to specify?
+                color: Colors.white
               ),
             ),
 
             SizedBox(height: 20), //adding space between widgets
 
+            Image.asset(
+            'assets/textbooks.jpg', //replace this with either our own logo or smth
+            ),
+
+            SizedBox(height: 20), //adding space between widgets
+
             Wrap(children: [
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/sellBooks');
-                  },
-                  child: Text("Sell Books")),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/buyBooks');
-                  },
-                  child: Text("Buy Books")),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/cart');
-                  },
-                  child: Text("Cart")),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/login');
-                  },
-                  child: Text("Login/Sign Up")),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/databaseTesting');
-                  },
-                  child: Text("Database Test")),
-            ]),
+              ElevatedButton( //make this bigger!
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.black,
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  textStyle: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  )
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/login');
+                },
+                child: Text("Login/Sign Up")
+                ),
+
+                ElevatedButton( //make this bigger!
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.black,
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  textStyle: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  )
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/databaseTesting');
+                },
+                child: Text("database test")
+                ),
+             ]),
           ],
         ),
       ),
+      
       endDrawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the drawer if there isn't enough vertical
@@ -72,10 +86,16 @@ class HomeScreen extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              child: Text('Drawer Header'),
+              child: Text('Menu'),
               decoration: BoxDecoration(
                 color: CustomColors.lsMaroon,
               ),
+            ),
+            ListTile(
+              title: Text('Cart'),
+              onTap: () {
+                Navigator.pushNamed(context, '/cart');
+              },
             ),
             ListTile(
               title: Text('Buy Books'),
@@ -86,7 +106,7 @@ class HomeScreen extends StatelessWidget {
             ListTile(
               title: Text('Sell Books'),
               onTap: () {
-                Navigator.pushNamed(context, '/buyBooks');
+                Navigator.pushNamed(context, '/sellBooks');
               },
             ),
             ListTile(
