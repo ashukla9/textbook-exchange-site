@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:database_practice/database.dart';
+import 'package:database_practice/static/colors.dart';
 
 class BuyBooks extends StatefulWidget {
   @override
@@ -59,20 +60,29 @@ Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
     return Padding(
       key: ValueKey(record.name),
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey),
           borderRadius: BorderRadius.circular(5.0),
         ),
+
         child: ListTile(
             title: Text(record.name),
             trailing: Text(record.price.toString()),
-            //onTap: Navigator.push(BuildContext(context), route), //navigates to the details of the book page
-      ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DetailPage(listing: record),
+                    ), //navigates to the details of the book page
+              );
+            }
+        ),
     ));
   }
 
-class Record {
+class Record { // a class for the book listings, probably should rename to Listing
   final String name;
   final double price;
   final DocumentReference reference;
@@ -96,15 +106,82 @@ class Record {
 // DetailPage = BookDetails
 //THIS DOES NOT WORK RN SOB
 class DetailPage extends StatefulWidget {
+  final Record listing;
+
+  DetailPage({Key key, @required this.listing}) : super(key: key);
+  //const DetailPage ({ Key key, this.listing }): super(key: key);
+
   @override
-  _DetailPageState createState() {
-    return _DetailPageState();
-  }
+  _DetailPageState createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+     return Center(
+       child: Card(
+        elevation: 10,
+        shadowColor: Colors.amber[100],
+        child: SizedBox(
+            width: 350,
+            height: 530,
+            child: Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: CloseButton() ),
+
+                  CircleAvatar( 
+                    //will put the image that user uploads in here!! 
+                    backgroundColor: CustomColors.lsMaroon,
+                    radius: 90,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ), //SizedBox
+                  Text(
+                    widget.listing.name,
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: CustomColors.lsMaroon,
+                      fontWeight: FontWeight.w500,
+                    ), //Textstyle
+                  ), //Text
+                  Text(
+                    "\$" + widget.listing.price.toString(),
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: CustomColors.lsMaroon,
+                      fontWeight: FontWeight.w500,
+                    ), //Textstyle
+                  ), //Text
+                  SizedBox(
+                    height: 20,
+                  ), //SizedBox
+                  Text(
+                    "Insert description of book. I.e what class it is used in (like what subject), what the quality is, who the seller is (contact information), etc. Whatever else we put in the database.",
+                    
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black,
+                    ), //Textstyle
+                  ), //Text
+                  SizedBox(
+                    height: 20,
+                  ), //SizedBox
+                  ElevatedButton(
+                      onPressed: () => null, 
+                      //eventually implement this buy button
+                      child: Text("Buy")
+                    ),
+                ],
+              ),
+            ),
+          ),
+       )
+     );
   }
 }
