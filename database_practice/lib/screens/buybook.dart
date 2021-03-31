@@ -35,7 +35,9 @@ class _BuyBooksState extends State<BuyBooks> {
     );
   }
 
-  //displays the user's cart
+//displays the user's cart
+// eventually this will probably be it's own file because we might want users to be able to view their cart from
+//    any of the screens rather than JUST the 'buy books' screen.
  void _viewCart() {
     Navigator.of(context).push(
         MaterialPageRoute(
