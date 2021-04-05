@@ -107,7 +107,6 @@ Widget _buildList(
 
 Widget _buildListItem(BuildContext context, DocumentSnapshot data, Cart cart) {
   final record = Record.fromSnapshot(data);
-
   return Padding(
       key: ValueKey(record.name),
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -187,8 +186,12 @@ class _DetailPageState extends State<DetailPage> {
                   height: 20,
                 ), //SizedBox
                 Text(
-                  "Insert description of book. I.e what class it is used in (like what subject), what the quality is, who the seller is (contact information), etc. Whatever else we put in the database.",
-
+                  //change to author and username from database
+                  "Author: " +
+                      widget.listing.name +
+                      " | Seller: " +
+                      widget.listing
+                          .name, //Insert description of book. I.e what class it is used in (like what subject), what the quality is, who the seller is (contact information), etc. Whatever else we put in the database.
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.black,
@@ -203,43 +206,6 @@ class _DetailPageState extends State<DetailPage> {
                       widget.cart.addToCart(widget.listing);
                     },
                     child: Text("Add to Cart")),
-                SizedBox(
-                  height: 20,
-                ), //SizedBox
-                Text(
-                  widget.listing.name,
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: CustomColors.lsMaroon,
-                    fontWeight: FontWeight.w500,
-                  ), //Textstyle
-                ), //Text
-                Text(
-                  "\$" + widget.listing.price.toString(),
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: CustomColors.lsMaroon,
-                    fontWeight: FontWeight.w500,
-                  ), //Textstyle
-                ), //Text
-                SizedBox(
-                  height: 20,
-                ), //SizedBox
-                Text(
-                  "Insert description of book. I.e what class it is used in (like what subject), what the quality is, who the seller is (contact information), etc. Whatever else we put in the database.",
-
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black,
-                  ), //Textstyle
-                ), //Text
-                SizedBox(
-                  height: 20,
-                ), //SizedBox
-                ElevatedButton(
-                    onPressed: () => null,
-                    //eventually implement this buy button
-                    child: Text("Buy")),
               ],
             ),
           ),
