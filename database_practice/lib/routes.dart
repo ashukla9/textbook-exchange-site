@@ -4,8 +4,8 @@ import 'screens/sellbook.dart';
 import 'screens/buybook.dart';
 import 'screens/login.dart';
 import 'screens/profile.dart';
-import 'screens/random_words.dart';
 import 'screens/databasetest.dart';
+import 'screens/checkout.dart';
 
 //organizes all the routes (which 'urls' link to which page)
 
@@ -15,7 +15,8 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   '/buyBooks': (BuildContext context) => BuyBooks(),
   '/sellBooks': (BuildContext context) => SellBooks(),
   '/login': (BuildContext context) => Login(),
-  //'/profile': (BuildContext context) => UserInfoScreen(),
+  '/profile': (BuildContext context) => Profile(),
+  //'/checkout': (BuildContet context) => Checkout(),
 
   //'/cart': (BuildContext context) => Pay(),
 

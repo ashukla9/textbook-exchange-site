@@ -1,14 +1,80 @@
 //display the 'profile' of the student
 //what classes they're taking, what grade they are, etc.
+//edit profile functionality: have users add their payment urls
 //if we are to expand, then we would add 'recommended books' here.
 
-/*
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:database_practice/static/colors.dart';
+import 'package:database_practice/database.dart';
 
 import 'login.dart';
+import 'package:database_practice/models/tbuser.dart';
+
+//right now this functions more as an "edit profile" page lol 
+
+class Profile extends StatefulWidget {
+  @override
+  _ProfileState createState() {
+    return _ProfileState();
+  }
+}
+
+class _ProfileState extends State<Profile> {
+  @override
+
+  //add logic: if user is signed in, then display the page, but if theyre not signed in, ask to sign in/up
+
+  Widget build(BuildContext context) {
+    TextEditingController _paymentUrlController = new TextEditingController();
+
+    //imported from database.dart, basic properties of a book
+    _paymentUrlController.text = paymentUrl;
+
+    return Scaffold(
+        appBar: AppBar(
+            title: Text(
+                "Profile") //will change this once we switch everything around and put it on the right pages
+            ),
+        body: SingleChildScrollView(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            //accepting input from user to list a textbook
+            Text("Enter your payment url:"),
+            Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: TextField(
+                  controller: _paymentUrlController,
+                  autofocus: true,
+                )),
+    
+            ElevatedButton(
+              child: Text("Update"),
+              onPressed: () async {
+
+                await database
+                    .collection("users")
+                    //the doc of the UID!
+                    .doc(uid) 
+                    //sets the paymentUrl field of the user
+                    .set({
+                      "paymentUrl": _paymentUrlController.text,
+                    });
+
+                Navigator.of(context).pop(); //change this to go back to profile page
+              },
+            ),
+          ],
+        )));
+  }
+}
+
+
+
+/*
 
 class UserInfoScreen extends StatefulWidget {
   const UserInfoScreen({Key key, User user})
