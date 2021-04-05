@@ -20,6 +20,6 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   //'/cart': (BuildContext context) => Pay(),
 
   //removed random words
-  //'/randomWords': (BuildContext context) => RandomWords(), 
+  //'/randomWords': (BuildContext context) => RandomWords(),
   '/databaseTesting': (BuildContext context) => MyHomePage(),
 };

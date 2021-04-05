@@ -19,22 +19,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildBody(BuildContext context) {
-    /*   database.collection("baby").get().then((querySnapshot) {
-  querySnapshot.docs.forEach((result) {
-    database
-        .collection("baby")
-        .doc(result.id)
-        .collection("books")
-        .get()
-        .then((querySnapshot) {
-      querySnapshot.docs.forEach((result) {
-        print(result.data());
-      });
-    });
-  });
-});
-} */
-
     return StreamBuilder<QuerySnapshot>(
       // changed bc of Firebase documentation
       stream: FirebaseFirestore.instance

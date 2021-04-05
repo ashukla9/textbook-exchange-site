@@ -14,8 +14,7 @@ class BuyBooks extends StatefulWidget {
 }
 
 class _BuyBooksState extends State<BuyBooks> {
-
- //represents the books in the cart
+  //represents the books in the cart
   final cart = new Cart();
 
   @override
@@ -24,13 +23,13 @@ class _BuyBooksState extends State<BuyBooks> {
       appBar: AppBar(
         title: Text('Buy Books'),
         actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.shopping_bag), //generates a list button in the actions widget
-                onPressed:
-                    _viewCart //call the function _viewCart (you created)
-                )
-          ],
-        ),  
+          IconButton(
+              icon: Icon(Icons
+                  .shopping_bag), //generates a list button in the actions widget
+              onPressed: _viewCart //call the function _viewCart (you created)
+              )
+        ],
+      ),
       body: DisplayBooks(cart),
     );
   }
@@ -45,42 +44,36 @@ class _BuyBooksState extends State<BuyBooks> {
 
       final Iterable<ListTile> tiles = cart.cartBooks.map((Record record) {
         return ListTile(
-            title: Text(record.name, style: TextStyle(fontSize: 16)),
-            trailing: IconButton(
+          title: Text(record.name, style: TextStyle(fontSize: 16)),
+          trailing: IconButton(
               icon: Icon(Icons.delete),
               onPressed: () {
                 cart.removeFromCart(record);
-                //refreshes the cart to see the new changes, source: https://stackoverflow.com/questions/55142992/flutter-delete-item-from-listview 
+                //refreshes the cart to see the new changes, source: https://stackoverflow.com/questions/55142992/flutter-delete-item-from-listview
                 Navigator.of(context).pop();
                 _viewCart();
-                }
-            ),
-          );    
+              }),
+        );
       });
 
       final List<Widget> divided = ListTile.divideTiles(
               //styles the listTile??
               context: context,
-              tiles: tiles
-          )
+              tiles: tiles)
           .toList(); //creates a list with the elements of this "iterable"
 
       return Scaffold(
           appBar: AppBar(title: Text('Cart')),
-          body: ListView(
-            children: divided
+          body: ListView(children: divided
               //see: final List<Widget> divided
-          ) 
-          );
+              ));
     }));
   }
-
 }
 
 //create a 'page' that displays the list of books
 // Previously known as ListPage = DisplayBooks
 class DisplayBooks extends StatefulWidget {
-
   final Cart cart;
   DisplayBooks(this.cart);
 
@@ -93,7 +86,8 @@ class DisplayBooks extends StatefulWidget {
 class _DisplayBooksState extends State<DisplayBooks> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>( // changed bc of Firebase documentation
+    return StreamBuilder<QuerySnapshot>(
+      // changed bc of Firebase documentation
       stream: database //refers to imported database.dart file!
           .collection('books')
           .snapshots(),
@@ -106,41 +100,38 @@ class _DisplayBooksState extends State<DisplayBooks> {
   }
 }
 
-Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot, Cart cart) {
-    return ListView(
-      padding: const EdgeInsets.only(top: 20.0),
-      children: snapshot.map((data) => _buildListItem(context, data, cart)).toList(),
-    );
-  }
+Widget _buildList(
+    BuildContext context, List<DocumentSnapshot> snapshot, Cart cart) {
+  return ListView(
+    padding: const EdgeInsets.only(top: 20.0),
+    children:
+        snapshot.map((data) => _buildListItem(context, data, cart)).toList(),
+  );
+}
 
-  Widget _buildListItem(BuildContext context, DocumentSnapshot data, Cart cart) {
-    final record = Record.fromSnapshot(data);
-
-    return Padding(
+Widget _buildListItem(BuildContext context, DocumentSnapshot data, Cart cart) {
+  final record = Record.fromSnapshot(data);
+  return Padding(
       key: ValueKey(record.name),
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey),
           borderRadius: BorderRadius.circular(5.0),
         ),
-
         child: ListTile(
-            title: Text(record.name), 
-            
+            title: Text(record.name),
             trailing: Text(record.price.toString()),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => DetailPage(record, cart),
-                    ), //navigates to the details of the book page
+                  builder: (context) => DetailPage(record, cart),
+                ), //navigates to the details of the book page
               );
-            }
-        ),
-    ));
-  }
+            }),
+      ));
+}
 
 //create a 'page' that displays the details of a book when you click on it
 class DetailPage extends StatefulWidget {
@@ -156,73 +147,74 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
-
   @override
   Widget build(BuildContext context) {
-     return Center(
-       child: Card(
+    return Center(
+      child: Card(
         elevation: 10,
         shadowColor: Colors.amber[100],
         child: SizedBox(
-            width: 350,
-            height: 530,
-            child: Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: CloseButton() ),
+          width: 350,
+          height: 530,
+          child: Padding(
+            padding: const EdgeInsets.all(25.0),
+            child: Column(
+              children: [
+                Align(alignment: Alignment.centerRight, child: CloseButton()),
 
-                  CircleAvatar( 
-                    //will put the image that user uploads in here!! 
-                    backgroundColor: CustomColors.lsMaroon,
-                    radius: 90,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ), //SizedBox
-                  Text(
-                    widget.listing.name,
-                    style: TextStyle(
-                      fontSize: 30,
-                      color: CustomColors.lsMaroon,
-                      fontWeight: FontWeight.w500,
-                    ), //Textstyle
-                  ), //Text
-                  Text(
-                    "\$" + widget.listing.price.toString(),
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: CustomColors.lsMaroon,
-                      fontWeight: FontWeight.w500,
-                    ), //Textstyle
-                  ), //Text
-                  SizedBox(
-                    height: 20,
-                  ), //SizedBox
-                  Text(
-                    "Insert description of book. I.e what class it is used in (like what subject), what the quality is, who the seller is (contact information), etc. Whatever else we put in the database.",
-                    
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black,
-                    ), //Textstyle
-                  ), //Text
-                  SizedBox(
-                    height: 20,
-                  ), //SizedBox
-                  ElevatedButton(
-                      //add to cart functionality that is NOT working rn
-                      onPressed: () {widget.cart.addToCart(widget.listing);}, 
-                      child: Text("Add to Cart")
-                    ),
-                ],
-              ),
+                CircleAvatar(
+                  //will put the image that user uploads in here!!
+                  backgroundColor: CustomColors.lsMaroon,
+                  radius: 90,
+                ),
+                SizedBox(
+                  height: 20,
+                ), //SizedBox
+                Text(
+                  widget.listing.name,
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: CustomColors.lsMaroon,
+                    fontWeight: FontWeight.w500,
+                  ), //Textstyle
+                ), //Text
+                Text(
+                  "\$" + widget.listing.price.toString(),
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: CustomColors.lsMaroon,
+                    fontWeight: FontWeight.w500,
+                  ), //Textstyle
+                ), //Text
+                SizedBox(
+                  height: 20,
+                ), //SizedBox
+                Text(
+                  //change to author and username from database
+                  "Author: " +
+                      widget.listing.name +
+                      " | Seller: " +
+                      widget.listing
+                          .name, //Insert description of book. I.e what class it is used in (like what subject), what the quality is, who the seller is (contact information), etc. Whatever else we put in the database.
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.black,
+                  ), //Textstyle
+                ), //Text
+                SizedBox(
+                  height: 20,
+                ), //SizedBox
+                ElevatedButton(
+                    //add to cart functionality that is NOT working rn
+                    onPressed: () {
+                      widget.cart.addToCart(widget.listing);
+                    },
+                    child: Text("Add to Cart")),
+              ],
             ),
           ),
-       )
-     );
+        ),
+      ),
+    );
   }
-} 
- 
+}
