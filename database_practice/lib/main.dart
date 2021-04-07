@@ -35,10 +35,7 @@ class MyApp extends StatelessWidget {
           '/home': (BuildContext context) => HomeController(),
           '/buyBooks': (BuildContext context) => BuyBooks(),
           '/sellBooks': (BuildContext context) => SellBooks(),
-          //    '/login': (BuildContext context) => Login(),
-          //'/profile': (BuildContext context) => UserInfoScreen(),
-
-          //'/cart': (BuildContext context) => Pay(),
+          '/profile': (BuildContext context) => Profile(),
         },
       ),
     );
