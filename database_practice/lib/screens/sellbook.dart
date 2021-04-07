@@ -64,7 +64,7 @@ class _SellBooksState extends State<SellBooks> {
                       "name": _titleController.text,
                       "price": (double.parse(_priceController.text)),
                       "author": _authorController.text,
-                      //    "user": uid,
+                      "user": "Anya", //CHANGE THIS!
                       //somehow it's autopopulating the user field but I DON'T KNOW HOW LMAO
                     })
                     .then((value) =>

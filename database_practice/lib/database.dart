@@ -7,9 +7,13 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+//books db
 String bookName;
 String price;
 String user;
 String author;
+
+//users db
+String paymentUrl;
 
 final database = FirebaseFirestore.instance;

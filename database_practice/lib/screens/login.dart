@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'package:database_practice/models/tbuser.dart';
+import 'package:database_practice/database.dart';
+
+
 //the LOGIN page
 
 class Login extends StatefulWidget {
@@ -83,5 +87,6 @@ class _LoginState extends State<Login> {
         isSignIn = false;
       });
     });
+
   }
 }

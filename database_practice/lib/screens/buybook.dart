@@ -34,10 +34,14 @@ class _BuyBooksState extends State<BuyBooks> {
     );
   }
 
-  //displays the user's cart
-  void _viewCart() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext context) {
+//displays the user's cart
+// eventually this will probably be it's own file because we might want users to be able to view their cart from
+//    any of the screens rather than JUST the 'buy books' screen.
+ void _viewCart() {
+    Navigator.of(context).push(
+        MaterialPageRoute(
+            builder: (BuildContext context) {
+
       final Iterable<ListTile> tiles = cart.cartBooks.map((Record record) {
         return ListTile(
           title: Text(record.name, style: TextStyle(fontSize: 16)),
@@ -186,12 +190,10 @@ class _DetailPageState extends State<DetailPage> {
                   height: 20,
                 ), //SizedBox
                 Text(
-                  //change to author and username from database
-                  "Author: " +
-                      widget.listing.name +
-                      " | Seller: " +
-                      widget.listing
-                          .name, //Insert description of book. I.e what class it is used in (like what subject), what the quality is, who the seller is (contact information), etc. Whatever else we put in the database.
+                  //adds details: author, which user listed it, description, etc.
+                      " by " + widget.listing.author + " listed by " + widget.listing.user,
+                      // currently widget.listing.user will display UIDs at time which is not ideal, maybe link this with a profile page or smth in the future
+                      // Insert description of book. I.e what class it is used in (like what subject), what the quality is, who the seller is (contact information), etc. Whatever else we put in the database.
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.black,
@@ -201,7 +203,7 @@ class _DetailPageState extends State<DetailPage> {
                   height: 20,
                 ), //SizedBox
                 ElevatedButton(
-                    //add to cart functionality that is NOT working rn
+                    //add to cart
                     onPressed: () {
                       widget.cart.addToCart(widget.listing);
                     },
