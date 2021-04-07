@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login.dart'; //gets the username variable
 import 'package:database_practice/database.dart';
-import 'package:dropdown_formfield/dropdown_formfield.dart';
 
 class SellBooks extends StatefulWidget {
   @override
@@ -65,7 +64,7 @@ class _SellBooksState extends State<SellBooks> {
                       "name": _titleController.text,
                       "price": (double.parse(_priceController.text)),
                       "author": _authorController.text,
-                      "user": uid,
+                      //    "user": uid,
                       //somehow it's autopopulating the user field but I DON'T KNOW HOW LMAO
                     })
                     .then((value) =>

@@ -3,7 +3,9 @@
 //import statements: You basically always have to import flutter/material.dart
 import 'package:flutter/material.dart';
 import 'package:database_practice/static/colors.dart';
-import 'login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:database_practice/main.dart';
+import '/screens/signup.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -28,41 +30,43 @@ class HomeScreen extends StatelessWidget {
               'LS Textbook Xchange',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 50, //how to specify?
-                color: Colors.white
-              ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 50, //how to specify?
+                  color: Colors.white),
             ),
 
             SizedBox(height: 20), //adding space between widgets
 
             Image.asset(
-            'assets/textbooks.jpg', //replace this with either our own logo or smth
+              'assets/textbooks.jpg', //replace this with either our own logo or smth
             ),
 
             SizedBox(height: 20), //adding space between widgets
 
             Wrap(children: [
-              ElevatedButton( //make this bigger!
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.black,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                  textStyle: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  )
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/login');
-                },
-                child: Text("Login/Sign Up")
-                ),
-
-             ]),
+              ElevatedButton(
+                  //make this bigger!
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                      textStyle: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  onPressed: () async {
+                    try {
+                      AuthService auth = Provider.of(context).auth;
+                      await auth.signOut();
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
+                  child: Text("Log Out")),
+            ]),
           ],
         ),
       ),
-      
       endDrawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the drawer if there isn't enough vertical
