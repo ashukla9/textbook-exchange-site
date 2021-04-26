@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:database_practice/static/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:database_practice/main.dart';
-import '/screens/signup.dart';
+import 'signup.dart';
 
 class HomeScreen extends StatelessWidget {
   @override

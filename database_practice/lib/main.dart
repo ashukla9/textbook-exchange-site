@@ -1,16 +1,14 @@
 import 'package:firebase_core/firebase_core.dart'; //added based on this medium tutorial: https://medium.com/firebase-tips-tricks/how-to-use-cloud-firestore-in-flutter-9ea80593ca40
 import 'package:flutter/material.dart';
-import 'screens/signup.dart'; //importing routes file
-import '/static/themes.dart'; //importing the file that specifies all the themes
+
+import 'routes.dart';
+
+import 'screens/signup.dart'; 
 import 'package:flutter/widgets.dart';
-import '/screens/home.dart';
-import '/screens/sellbook.dart';
-import '/screens/buybook.dart';
-import '/screens/login.dart';
-//import 'screens/cart.dart';
-import '/screens/profile.dart';
-import '/screens/firstview.dart';
-import 'package:provider/provider.dart';
+import 'screens/home.dart';
+import 'screens/firstview.dart';
+
+import 'static/themes.dart'; //importing the file that specifies all the themes
 
 void main() async {
   //created based on this Stack Overflow: https://stackoverflow.com/questions/63492211/no-firebase-app-default-has-been-created-call-firebase-initializeapp-in
@@ -26,17 +24,9 @@ class MyApp extends StatelessWidget {
       auth: AuthService(),
       child: MaterialApp(
         title: "Textbook Exchange App",
-        home: HomeController(),
-        routes: <String, WidgetBuilder>{
-          '/signup': (BuildContext context) =>
-              SignUpView(authFormType: AuthFormType.signUp),
-          '/login': (BuildContext context) =>
-              SignUpView(authFormType: AuthFormType.signIn),
-          '/home': (BuildContext context) => HomeController(),
-          '/buyBooks': (BuildContext context) => BuyBooks(),
-          '/sellBooks': (BuildContext context) => SellBooks(),
-          '/profile': (BuildContext context) => Profile(),
-        },
+        //home: HomeController(),
+        routes: routes,
+        theme: CustomTheme.lightTheme,
       ),
     );
   }

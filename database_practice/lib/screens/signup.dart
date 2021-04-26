@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:database_practice/main.dart';
+import 'package:database_practice/static/colors.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -35,8 +36,6 @@ class AuthService {
     return _firebaseAuth.signOut();
   }
 }
-
-final primaryColor = const Color(0xFF75A2EA);
 
 enum AuthFormType { signIn, signUp }
 
@@ -95,19 +94,31 @@ class _SignUpViewState extends State<SignUpView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: primaryColor,
+        color: CustomColors.offWhite,
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: SafeArea(
             child: Column(
           children: <Widget>[
-            buildHeaderText(),
-            Form(
-              key: formKey,
-              child: Column(
-                children: buildInputs() + buildButtons(),
-              ),
+            Container(
+              margin: const EdgeInsets.all(25.0),
+              child: Column(children: [
+                SizedBox(
+                  height: 50
+                ),
+                buildHeaderText(),
+                SizedBox(
+                  height: 50
+                ),
+                Form(
+                  key: formKey,
+                  child: Column(
+                  children: buildInputs() + buildButtons(),
+                  ),
+                )
+              ],)
             )
+
           ],
         )),
       ),
@@ -167,10 +178,10 @@ class _SignUpViewState extends State<SignUpView> {
     return InputDecoration(
       hintText: hint,
       filled: true,
-      fillColor: Colors.white,
+      fillColor: CustomColors.offWhite,
       focusColor: Colors.white,
       enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white, width: 0.0)),
+          borderSide: BorderSide(color: CustomColors.lsMaroon, width: 1.0)),
       contentPadding:
           const EdgeInsets.only(left: 14.0, bottom: 10.0, top: 10.0),
     );

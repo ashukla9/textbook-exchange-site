@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
+import 'package:database_practice/static/colors.dart';
+
 class FirstView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -10,7 +12,7 @@ class FirstView extends StatelessWidget {
       body: Container(
         width: _width,
         height: _height,
-        color: const Color(0xFF75AE2EA),
+        color: CustomColors.offWhite,
         child: SafeArea(
           child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -19,14 +21,12 @@ class FirstView extends StatelessWidget {
                   height: _height * 0.10,
                 ),
                 AutoSizeText(
-                  "Welcome",
+                  "WELCOME",
                   textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  height: _height * 0.10,
+                  textScaleFactor: 3,
                 ),
                 AutoSizeText(
-                  "Get Started",
+                  "The place for Lakesiders to resell and reuse textbooks.",
                   maxLines: 1,
                   textAlign: TextAlign.center,
                 ),
@@ -35,21 +35,25 @@ class FirstView extends StatelessWidget {
                 ),
                 ElevatedButton(
                     child: Text(
-                      "Sign Up",
+                      "Get Started",
                     ),
                     onPressed: () {
                       Navigator.of(context).pushReplacementNamed('/signup');
                     }),
-                SizedBox(
-                  height: _height * 0.10,
-                ),
                 ElevatedButton(
                     child: Text(
                       "Log In",
                     ),
                     onPressed: () {
                       Navigator.of(context).pushReplacementNamed('/login');
-                    }),
+                    }
+                ),
+                SizedBox(
+                  height: _height * 0.10,
+                ),
+                Image.asset(
+                  'assets/textbooks.png', //replace this with either our own logo or smth
+                ),
               ])),
         ),
       ),
