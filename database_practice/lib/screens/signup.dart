@@ -37,6 +37,39 @@ class AuthService {
   }
 }
 
+class EmailValidator {
+  static String validate(String value) {
+    if (value.isEmpty) {
+      return "Email can't be empty.";
+    }
+    return null;
+  }
+}
+
+class NameValidator {
+  static String validate(String value) {
+    if (value.isEmpty) {
+      return "Name can't be empty.";
+    }
+    if (value.length < 2) {
+      return "Name must be at least 2 characters long";
+    }
+    if (value.length > 50) {
+      return "Name must be less than 50 characters long";
+    }
+    return null;
+  }
+}
+
+class PasswordValidator {
+  static String validate(String value) {
+    if (value.isEmpty) {
+      return "Password can't be empty.";
+    }
+    return null;
+  }
+}
+
 enum AuthFormType { signIn, signUp }
 
 class SignUpView extends StatefulWidget {
@@ -54,7 +87,7 @@ class _SignUpViewState extends State<SignUpView> {
   _SignUpViewState({this.authFormType});
 
   final formKey = GlobalKey<FormState>();
-  String _email, _password, _name;
+  String _email, _password, _name, _error;
 
   void switchFormState(String state) {
     formKey.currentState.reset();
@@ -69,24 +102,36 @@ class _SignUpViewState extends State<SignUpView> {
     }
   }
 
-  void submit() async {
+  bool validate() {
     final form = formKey.currentState;
     form.save();
+    if (form.validate()) {
+      form.save();
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-    try {
-      final auth = Provider.of(context).auth;
-      if (authFormType == AuthFormType.signIn) {
-        String uid = await auth.signInWithEmailAndPassword(_email, _password);
-        print("Signed in with ID $uid");
-        Navigator.of(context).pushReplacementNamed('/home');
-      } else {
-        String uid =
-            await auth.createUserWithEmailAndPassword(_email, _password, _name);
-        print("Created user with new ID $uid");
-        Navigator.of(context).pushReplacementNamed('/home');
+  void submit() async {
+    if (validate()) {
+      try {
+        final auth = Provider.of(context).auth;
+        if (authFormType == AuthFormType.signIn) {
+          String uid = await auth.signInWithEmailAndPassword(_email, _password);
+          print("Signed in with ID $uid");
+          Navigator.of(context).pushReplacementNamed('/home');
+        } else {
+          String uid = await auth.createUserWithEmailAndPassword(
+              _email, _password, _name);
+          print("Created user with new ID $uid");
+          Navigator.of(context).pushReplacementNamed('/home');
+        }
+      } catch (e) {
+        setState(() {
+          _error = e.message;
+        });
       }
-    } catch (e) {
-      print(e);
     }
   }
 
@@ -100,28 +145,56 @@ class _SignUpViewState extends State<SignUpView> {
         child: SafeArea(
             child: Column(
           children: <Widget>[
+            showAlert(),
             Container(
-              margin: const EdgeInsets.all(25.0),
-              child: Column(children: [
-                SizedBox(
-                  height: 50
-                ),
-                buildHeaderText(),
-                SizedBox(
-                  height: 50
-                ),
-                Form(
-                  key: formKey,
-                  child: Column(
-                  children: buildInputs() + buildButtons(),
-                  ),
-                )
-              ],)
-            )
-
+                margin: const EdgeInsets.all(25.0),
+                child: Column(
+                  children: [
+                    SizedBox(height: 50),
+                    buildHeaderText(),
+                    SizedBox(height: 50),
+                    Form(
+                      key: formKey,
+                      child: Column(
+                        children: buildInputs() + buildButtons(),
+                      ),
+                    )
+                  ],
+                ))
           ],
         )),
       ),
+    );
+  }
+
+  Widget showAlert() {
+    if (_error != null) {
+      return Container(
+        color: Colors.amberAccent,
+        width: double.infinity,
+        padding: EdgeInsets.all(8.0),
+        child: Row(
+          children: <Widget>[
+            Icon(Icons.error_outline),
+            Expanded(
+              child: Text(
+                _error,
+                maxLines: 3,
+              ),
+            ),
+            IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  setState(() {
+                    _error = null;
+                  });
+                })
+          ],
+        ),
+      );
+    }
+    return Container(
+      height: 0,
     );
   }
 
@@ -140,6 +213,7 @@ class _SignUpViewState extends State<SignUpView> {
 
     textFields.add(
       TextFormField(
+        validator: EmailValidator.validate,
         style: TextStyle(
           fontSize: 22,
         ),
@@ -150,6 +224,7 @@ class _SignUpViewState extends State<SignUpView> {
 
     textFields.add(
       TextFormField(
+        validator: PasswordValidator.validate,
         style: TextStyle(
           fontSize: 22,
         ),
@@ -162,6 +237,7 @@ class _SignUpViewState extends State<SignUpView> {
     if (authFormType == AuthFormType.signUp) {
       textFields.add(
         TextFormField(
+          validator: NameValidator.validate,
           style: TextStyle(
             fontSize: 22,
           ),
