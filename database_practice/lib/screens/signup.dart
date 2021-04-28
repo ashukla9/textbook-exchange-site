@@ -42,7 +42,11 @@ class EmailValidator {
     if (value.isEmpty) {
       return "Email can't be empty.";
     }
-    return null;
+    if (value.contains("@lakesideschool.org")) {
+      return null;
+    } else {
+      return "Please use your Lakeside email.";
+    }
   }
 }
 
