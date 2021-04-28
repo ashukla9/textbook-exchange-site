@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login.dart'; //gets the username variable
 import 'package:database_practice/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SellBooks extends StatefulWidget {
   @override
@@ -12,6 +13,8 @@ class SellBooks extends StatefulWidget {
 class _SellBooksState extends State<SellBooks> {
   @override
   Widget build(BuildContext context) {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+
     TextEditingController _titleController = new TextEditingController();
     TextEditingController _priceController = new TextEditingController();
     TextEditingController _authorController = new TextEditingController();
@@ -64,8 +67,7 @@ class _SellBooksState extends State<SellBooks> {
                       "name": _titleController.text,
                       "price": (double.parse(_priceController.text)),
                       "author": _authorController.text,
-                      "user": "Anya", //CHANGE THIS!
-                      //somehow it's autopopulating the user field but I DON'T KNOW HOW LMAO
+                      "user": auth.currentUser.uid //CHANGE THIS!
                     })
                     .then((value) =>
                         print("Textbook added")) // it's not doing this either

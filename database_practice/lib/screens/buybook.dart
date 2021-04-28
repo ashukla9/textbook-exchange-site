@@ -21,23 +21,23 @@ class _BuyBooksState extends State<BuyBooks> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Buy Books'),
+        title: Text('Book Marketplace'),
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons
                   .shopping_bag), //generates a list button in the actions widget
-              onPressed: _viewCart //call the function _viewCart (you created)
+              onPressed: viewCart //call the function _viewCart (you created)
               )
         ],
       ),
-      body: DisplayBooks(cart),
+      body: DisplayBooks(cart)
     );
   }
 
 //displays the user's cart
 // eventually this will probably be it's own file because we might want users to be able to view their cart from
 //    any of the screens rather than JUST the 'buy books' screen.
- void _viewCart() {
+ void viewCart() {
     Navigator.of(context).push(
         MaterialPageRoute(
             builder: (BuildContext context) {
@@ -51,7 +51,7 @@ class _BuyBooksState extends State<BuyBooks> {
                 cart.removeFromCart(record);
                 //refreshes the cart to see the new changes, source: https://stackoverflow.com/questions/55142992/flutter-delete-item-from-listview
                 Navigator.of(context).pop();
-                _viewCart();
+                viewCart();
               }),
         );
       });
@@ -64,9 +64,23 @@ class _BuyBooksState extends State<BuyBooks> {
 
       return Scaffold(
           appBar: AppBar(title: Text('Cart')),
-          body: ListView(children: divided
-              //see: final List<Widget> divided
-              ));
+          body: Column(
+            children:[
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  children: divided
+                ), //see: final List<Widget> divided   
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/checkout");
+                },
+                child: Text("Checkout")
+                )
+            ]
+          )
+        );
     }));
   }
 }
@@ -206,6 +220,7 @@ class _DetailPageState extends State<DetailPage> {
                     //add to cart
                     onPressed: () {
                       widget.cart.addToCart(widget.listing);
+                      Navigator.pop(context);
                     },
                     child: Text("Add to Cart")),
               ],

@@ -3,7 +3,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class TbUser { // a class for the book listings, probably should rename to Listing
+class TbUser { // a class for the users
   final String name;
   final String paymentUrl;
 

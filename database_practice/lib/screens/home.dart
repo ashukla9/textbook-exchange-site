@@ -47,7 +47,7 @@ class HomeScreen extends StatelessWidget {
               ElevatedButton(
                   //make this bigger!
                   style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
+                      primary: CustomColors.offWhite,
                       padding:
                           EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                       textStyle: TextStyle(
