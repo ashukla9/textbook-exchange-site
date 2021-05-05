@@ -205,7 +205,7 @@ class _DetailPageState extends State<DetailPage> {
                 ), //SizedBox
                 Text(
                   //adds details: author, which user listed it, description, etc.
-                      " by " + widget.listing.author + " listed by " + widget.listing.user,
+                      " by " + widget.listing.author + " listed by " + widget.listing.username,
                       // currently widget.listing.user will display UIDs at time which is not ideal, maybe link this with a profile page or smth in the future
                       // Insert description of book. I.e what class it is used in (like what subject), what the quality is, who the seller is (contact information), etc. Whatever else we put in the database.
                   style: TextStyle(

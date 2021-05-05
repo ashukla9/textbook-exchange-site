@@ -67,15 +67,17 @@ class _SellBooksState extends State<SellBooks> {
                       "name": _titleController.text,
                       "price": (double.parse(_priceController.text)),
                       "author": _authorController.text,
-                      "user": auth.currentUser.uid //CHANGE THIS!
+                      "user": auth.currentUser.uid,
+                      "username": auth.currentUser.displayName
                     })
+                    
                     .then((value) =>
                         print("Textbook added")) // it's not doing this either
                     //if there is an error
                     .catchError(
                         (error) => print("Failed to add textbook")); //or this
-                Navigator.of(context).popUntil((route) =>
-                    route.isFirst); //change this to reset to blank form
+
+                Navigator.of(context).pushReplacementNamed('/sellBooks');
               },
             ),
           ],

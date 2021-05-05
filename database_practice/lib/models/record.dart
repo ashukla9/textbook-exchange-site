@@ -5,6 +5,7 @@ class Record { // a class for the book listings, probably should rename to Listi
   final double price;
   final String author;
   final String user;
+  final String username;
   //final String description;
   final DocumentReference reference;
 
@@ -17,13 +18,14 @@ class Record { // a class for the book listings, probably should rename to Listi
         name = map['name'],
         price = map['price'],
         author = map['author'],
-        user = map['user'];
+        user = map['user'],
+        username = map['username'];
 
   Record.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data(), reference: snapshot.reference);
 
   @override
-  String toString() => "Record<$name:$price:$author:$user>";
+  String toString() => "Record<$name:$price:$author:$user:$username>";
 }
 
 
