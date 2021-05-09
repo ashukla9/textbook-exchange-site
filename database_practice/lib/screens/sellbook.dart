@@ -10,6 +10,95 @@ class SellBooks extends StatefulWidget {
 }
 
 class _SellBooksState extends State<SellBooks> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String _name, _price, _author, _error;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+            title: Text(
+                "Sell Books") //will change this once we switch everything around and put it on the right pages
+            ),
+        body: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextFormField(
+                  style: TextStyle(
+                    fontSize: 22,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: "Textbook name",
+                  ),
+                  validator: (text) {
+                    if (text == null || text.isEmpty) {
+                      return 'Please input textbook name';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) => _name = value,
+                ),
+                TextFormField(
+                  validator: (text) {
+                    if (text == null || text.isEmpty) {
+                      return 'Please input textbook price';
+                    }
+                    return null;
+                  },
+                  style: TextStyle(
+                    fontSize: 22,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: "Textbook price",
+                  ),
+                  keyboardType: TextInputType.number,
+                  onSaved: (value) => _price = value,
+                ),
+                TextFormField(
+                  validator: (text) {
+                    if (text == null || text.isEmpty) {
+                      return 'Please input textbook author';
+                    }
+                    return null;
+                  },
+                  style: TextStyle(
+                    fontSize: 22,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: "Textbook author",
+                  ),
+                  onSaved: (value) => _author = value,
+                ),
+                ElevatedButton(
+                  child: Text("Submit"),
+                  onPressed: () async {
+                    await database
+                        .collection("books")
+                        .doc(_name)
+                        .set({
+                          "name": _name,
+                          "price": double.parse(_price),
+                          "author": _author,
+                          "user":
+                              uid, // changed to show the UID --> might need to change to name
+                        })
+                        .then((value) => print("Textbook added"))
+                        //if there is an error
+                        .catchError((error) =>
+                            print("Failed to add textbook")); //or this
+                    Navigator.of(context).popUntil((route) =>
+                        route.isFirst); //change this to reset to blank form
+                  },
+                ),
+              ],
+            ))));
+  }
+}
+/*
+class _SellBooksState extends State<SellBooks> {
   @override
   Widget build(BuildContext context) {
     TextEditingController _titleController = new TextEditingController();
@@ -64,11 +153,10 @@ class _SellBooksState extends State<SellBooks> {
                       "name": _titleController.text,
                       "price": (double.parse(_priceController.text)),
                       "author": _authorController.text,
-                      "user": "Anya", //CHANGE THIS!
-                      //somehow it's autopopulating the user field but I DON'T KNOW HOW LMAO
+                      "user": uid, // changed to show the UID --> might need to change to name
                     })
                     .then((value) =>
-                        print("Textbook added")) // it's not doing this either
+                        print("Textbook added"))
                     //if there is an error
                     .catchError(
                         (error) => print("Failed to add textbook")); //or this
@@ -79,4 +167,4 @@ class _SellBooksState extends State<SellBooks> {
           ],
         )));
   }
-}
+} */
