@@ -123,7 +123,7 @@ class _SignUpViewState extends State<SignUpView> {
         final auth = Provider.of(context).auth;
         if (authFormType == AuthFormType.signIn) {
           String uid = await auth.signInWithEmailAndPassword(_email, _password);
-          print("Signed in with ID $uid");
+          print("Signed in with ID $uid"); //not working
           Navigator.of(context).pushReplacementNamed('/home');
         } else {
           String uid = await auth.createUserWithEmailAndPassword(

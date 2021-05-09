@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login.dart'; //gets the username variable
 import 'package:database_practice/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SellBooks extends StatefulWidget {
   @override
@@ -101,6 +102,8 @@ class _SellBooksState extends State<SellBooks> {
 class _SellBooksState extends State<SellBooks> {
   @override
   Widget build(BuildContext context) {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+
     TextEditingController _titleController = new TextEditingController();
     TextEditingController _priceController = new TextEditingController();
     TextEditingController _authorController = new TextEditingController();
@@ -153,15 +156,21 @@ class _SellBooksState extends State<SellBooks> {
                       "name": _titleController.text,
                       "price": (double.parse(_priceController.text)),
                       "author": _authorController.text,
+<<<<<<< HEAD
                       "user": uid, // changed to show the UID --> might need to change to name
+=======
+                      "user": auth.currentUser.uid,
+                      "username": auth.currentUser.displayName
+>>>>>>> 90a25d2c31b4931106d01cd2342ebc87dda8c5e9
                     })
+                    
                     .then((value) =>
                         print("Textbook added"))
                     //if there is an error
                     .catchError(
                         (error) => print("Failed to add textbook")); //or this
-                Navigator.of(context).popUntil((route) =>
-                    route.isFirst); //change this to reset to blank form
+
+                Navigator.of(context).pushReplacementNamed('/sellBooks');
               },
             ),
           ],
