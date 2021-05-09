@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'login.dart'; //gets the username variable
 import 'package:database_practice/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dropdown_formfield/dropdown_formfield.dart';
 
 class SellBooks extends StatefulWidget {
   @override
@@ -12,7 +13,7 @@ class SellBooks extends StatefulWidget {
 
 class _SellBooksState extends State<SellBooks> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String _name, _price, _author, _error;
+  String _name, _price, _author, _condition, _error;
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   bool validate() {
@@ -47,6 +48,7 @@ class _SellBooksState extends State<SellBooks> {
                     hintText: "Textbook name",
                   ),
                   validator: (text) {
+                    //https://stackoverflow.com/questions/53424916/textfield-validation-in-flutter/53426227
                     if (text == null || text.isEmpty) {
                       return 'Please input textbook name';
                     }
@@ -56,6 +58,7 @@ class _SellBooksState extends State<SellBooks> {
                 ),
                 TextFormField(
                   validator: (text) {
+                    //maybe have max textbook price?
                     if (text == null || text.isEmpty) {
                       return 'Please input textbook price';
                     }
@@ -85,6 +88,43 @@ class _SellBooksState extends State<SellBooks> {
                   ),
                   onSaved: (value) => _author = value,
                 ),
+                DropDownFormField(
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Please note book condition';
+                    }
+                    return null;
+                  },
+                  titleText: 'Book condition',
+                  hintText: 'Please choose one',
+                  value: _condition,
+                  onSaved: (value) => _condition = value,
+                  onChanged: (value) {
+                    setState(() {
+                      _condition = value;
+                    });
+                  },
+                  dataSource: [
+                    {
+                      "display": "New",
+                      "value": "New",
+                    },
+                    {
+                      "display": "Slightly Used",
+                      "value": "Slightly Used",
+                    },
+                    {
+                      "display": "Moderately Used",
+                      "value": "Moderately Used",
+                    },
+                    {
+                      "display": "Extremely Used",
+                      "value": "Extremely Used",
+                    },
+                  ],
+                  textField: 'display',
+                  valueField: 'value',
+                ),
                 ElevatedButton(
                     child: Text("Submit"),
                     onPressed: () async {
@@ -97,6 +137,7 @@ class _SellBooksState extends State<SellBooks> {
                                 "name": _name,
                                 "price": double.parse(_price),
                                 "author": _author,
+                                "condition": _condition,
                                 "user": auth.currentUser.uid,
                                 "username": auth.currentUser
                                     .displayName, // changed to show the UID --> might need to change to name
@@ -105,8 +146,8 @@ class _SellBooksState extends State<SellBooks> {
                               //if there is an error
                               .catchError((error) =>
                                   print("Failed to add textbook")); //or this
-                          Navigator.pushNamed(context,
-                              '/buyBooks'); //perhaps add a "success" message here
+                          Navigator.of(context).popUntil((route) => route
+                              .isFirst); //perhaps add a "success" message here
                         } catch (e) {
                           setState(() {
                             _error = e.message;
