@@ -10,7 +10,7 @@ import 'package:database_practice/database.dart';
 
 import 'login.dart';
 
-//right now this functions more as an "edit profile" page lol 
+//right now this functions more as an "edit profile" page lol
 
 class Profile extends StatefulWidget {
   @override
@@ -28,33 +28,34 @@ class _ProfileState extends State<Profile> {
     //VERY IMPORTANT! creates instance of Auth to get user information
     final FirebaseAuth auth = FirebaseAuth.instance;
     final currentUid = auth.currentUser.uid;
+    final currentName = auth.currentUser
+        .displayName; //added this variable so the user can see their username instead of a long string of numbers
 
     return Scaffold(
         appBar: AppBar(
             title: Text(
                 "Profile") //will change this once we switch everything around and put it on the right pages
             ),
-        body: Column(children: [
-          Text("Welcome, " + currentUid),
-          ElevatedButton(
-            onPressed: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditProfile(currentUid),
-                ), //navigates to the details of the book page
-              );
-            }, 
-            child: Text("Edit Profile")
-          )
-        ],)
-      );
+        body: Column(
+          children: [
+            Text("Welcome, " + currentName),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditProfile(currentUid),
+                    ), //navigates to the details of the book page
+                  );
+                },
+                child: Text("Edit Profile"))
+          ],
+        ));
   }
 }
 
 class EditProfile extends StatefulWidget {
   @override
-
   final String currentUid;
   EditProfile(this.currentUid);
 
@@ -64,53 +65,51 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
-
     TextEditingController _paymentUrlController = new TextEditingController();
-    //imported from database.dart,properties 
+    //imported from database.dart,properties
     _paymentUrlController.text = paymentUrl;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Edit Profile"),
-      ),
-      body: Column(children:[
-        SingleChildScrollView(
-            child: Column(
+        appBar: AppBar(
+          title: Text("Edit Profile"),
+        ),
+        body: Column(children: [
+          SingleChildScrollView(
+              child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(height: 20,),
+            children: <Widget>[
+              SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text("Enter your payment url:"),
+              Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: TextField(
+                    controller: _paymentUrlController,
+                    autofocus: true,
+                  )),
+              ElevatedButton(
+                child: Text("Update"),
+                onPressed: () async {
+                  await database
+                      .collection("users")
+                      //the doc of the UID!
+                      .doc(widget.currentUid)
+                      //sets the paymentUrl field of the user
+                      .set({
+                    "paymentUrl": _paymentUrlController.text,
+                  });
 
-                SizedBox(height: 20,),
-
-                Text("Enter your payment url:"),
-                Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: TextField(
-                      controller: _paymentUrlController,
-                      autofocus: true,
-                    )),
-        
-                ElevatedButton(
-                  child: Text("Update"),
-                  onPressed: () async {
-
-                    await database
-                        .collection("users")
-                        //the doc of the UID!
-                        .doc(widget.currentUid) 
-                        //sets the paymentUrl field of the user
-                        .set({
-                          "paymentUrl": _paymentUrlController.text,
-                        });
-
-                    Navigator.of(context).pop(); //change this to go back to profile page
-                  },
-                ),
-              ],
-            )
-        )
-      ])
-    );
+                  Navigator.of(context)
+                      .pop(); //change this to go back to profile page
+                },
+              ),
+            ],
+          ))
+        ]));
   }
 }
 /*
@@ -239,4 +238,4 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       ),
     );
   }
-}*/ 
+}*/

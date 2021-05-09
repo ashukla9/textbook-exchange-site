@@ -20,28 +20,25 @@ class _BuyBooksState extends State<BuyBooks> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Book Marketplace'),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons
-                  .shopping_bag), //generates a list button in the actions widget
-              onPressed: viewCart //call the function _viewCart (you created)
-              )
-        ],
-      ),
-      body: DisplayBooks(cart)
-    );
+        appBar: AppBar(
+          title: Text('Book Marketplace'),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons
+                    .shopping_bag), //generates a list button in the actions widget
+                onPressed: viewCart //call the function _viewCart (you created)
+                )
+          ],
+        ),
+        body: DisplayBooks(cart));
   }
 
 //displays the user's cart
 // eventually this will probably be it's own file because we might want users to be able to view their cart from
 //    any of the screens rather than JUST the 'buy books' screen.
- void viewCart() {
-    Navigator.of(context).push(
-        MaterialPageRoute(
-            builder: (BuildContext context) {
-
+  void viewCart() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
       final Iterable<ListTile> tiles = cart.cartBooks.map((Record record) {
         return ListTile(
           title: Text(record.name, style: TextStyle(fontSize: 16)),
@@ -64,23 +61,18 @@ class _BuyBooksState extends State<BuyBooks> {
 
       return Scaffold(
           appBar: AppBar(title: Text('Cart')),
-          body: Column(
-            children:[
-              Expanded(
-                child: ListView(
+          body: Column(children: [
+            Expanded(
+              child: ListView(
                   padding: const EdgeInsets.only(top: 10.0),
-                  children: divided
-                ), //see: final List<Widget> divided   
-              ),
-              ElevatedButton(
+                  children: divided), //see: final List<Widget> divided
+            ),
+            ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, "/checkout");
                 },
-                child: Text("Checkout")
-                )
-            ]
-          )
-        );
+                child: Text("Checkout"))
+          ]));
     }));
   }
 }
@@ -205,9 +197,12 @@ class _DetailPageState extends State<DetailPage> {
                 ), //SizedBox
                 Text(
                   //adds details: author, which user listed it, description, etc.
-                      " by " + widget.listing.author + " listed by " + widget.listing.username,
-                      // currently widget.listing.user will display UIDs at time which is not ideal, maybe link this with a profile page or smth in the future
-                      // Insert description of book. I.e what class it is used in (like what subject), what the quality is, who the seller is (contact information), etc. Whatever else we put in the database.
+                  " by " +
+                      widget.listing.author +
+                      " listed by " +
+                      widget.listing.username,
+                  // currently widget.listing.user will display UIDs at time which is not ideal, maybe link this with a profile page or smth in the future
+                  // Insert description of book. I.e what class it is used in (like what subject), what the quality is, who the seller is (contact information), etc. Whatever else we put in the database.
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.black,
