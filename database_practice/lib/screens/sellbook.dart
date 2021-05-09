@@ -97,15 +97,16 @@ class _SellBooksState extends State<SellBooks> {
                                 "name": _name,
                                 "price": double.parse(_price),
                                 "author": _author,
-                                "user": auth.currentUser
+                                "user": auth.currentUser.uid,
+                                "username": auth.currentUser
                                     .displayName, // changed to show the UID --> might need to change to name
                               })
                               .then((value) => print("Textbook added"))
                               //if there is an error
                               .catchError((error) =>
                                   print("Failed to add textbook")); //or this
-                          Navigator.of(context).popUntil((route) => route
-                              .isFirst); //change this to reset to blank form
+                          Navigator.pushNamed(context,
+                              '/buyBooks'); //perhaps add a "success" message here
                         } catch (e) {
                           setState(() {
                             _error = e.message;
