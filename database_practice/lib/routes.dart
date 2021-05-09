@@ -1,10 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'screens/home.dart';
+
 import 'screens/sellbook.dart';
+
 import 'screens/buybook.dart';
 import 'screens/profile.dart';
 import 'screens/databasetest.dart';
 import 'screens/signup.dart'; 
+import 'screens/checkout.dart';
 
 import 'main.dart';
 
@@ -22,9 +25,9 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   '/profile': (BuildContext context) => Profile(),
   '/signup': (BuildContext context) =>
               SignUpView(authFormType: AuthFormType.signUp),
+  '/cart': (BuildContext context) => BuyBooks(),
 
+  '/checkout': (BuildContext context) => Checkout(),
 
-  //'/checkout': (BuildContet context) => Checkout(),
-  //'/cart': (BuildContext context) => Pay(),
   '/databaseTesting': (BuildContext context) => MyHomePage(),
 };
