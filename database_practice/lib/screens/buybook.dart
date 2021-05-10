@@ -33,7 +33,7 @@ class _BuyBooksState extends State<BuyBooks> {
         body: DisplayBooks(cart));
   }
 
-//displays the user's cart
+//DISPLAYS USERS CART
 // eventually this will probably be it's own file because we might want users to be able to view their cart from
 //    any of the screens rather than JUST the 'buy books' screen.
   void viewCart() {
@@ -77,8 +77,7 @@ class _BuyBooksState extends State<BuyBooks> {
   }
 }
 
-//create a 'page' that displays the list of books
-// Previously known as ListPage = DisplayBooks
+//DISPLAYS BOOK LIST
 class DisplayBooks extends StatefulWidget {
   final Cart cart;
   DisplayBooks(this.cart);
@@ -90,56 +89,110 @@ class DisplayBooks extends StatefulWidget {
 }
 
 class _DisplayBooksState extends State<DisplayBooks> {
+  TextEditingController _searchController = TextEditingController();
+  List _allResults = [];
+  List _searchResults = [];
+  Future resultsLoaded;
+
   @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    resultsLoaded = getBookSnapshots();
+  }
+
+  _onSearchChanged() {
+    searchResultsList();
+  }
+
+  searchResultsList() {
+    var showResults = [];
+
+    if (_searchController.text != "") {
+      for (var book in _allResults) {
+        var bookname = Record.fromSnapshot(book).name.toLowerCase();
+
+        if (bookname.contains(_searchController.text.toLowerCase())) {
+          showResults.add(book);
+        }
+      }
+    } else {
+      showResults = List.from(_allResults);
+    }
+
+    setState(() {
+      _searchResults = showResults;
+    });
+  }
+
+  getBookSnapshots() async {
+    var data = await database.collection('books').get();
+    setState(() {
+      _allResults = data.docs;
+    });
+    searchResultsList();
+    return "complete";
+  }
+
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      // changed bc of Firebase documentation
-      stream: database //refers to imported database.dart file!
-          .collection('books')
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) return LinearProgressIndicator();
-        // changed bc of Firebase documentation
-        return _buildList(context, snapshot.data.docs, widget.cart);
-      },
+    return Container(
+      child: Column(
+        children: <Widget>[
+          TextField(
+            controller: _searchController,
+            decoration: InputDecoration(prefixIcon: Icon(Icons.search)),
+          ),
+          Expanded(
+            child: ListView.builder(
+                itemCount: _searchResults.length,
+                itemBuilder: (BuildContext context, int index) =>
+                    _buildListItem(
+                        context, _searchResults[index], widget.cart)),
+          ),
+        ],
+      ),
     );
+  }
+
+  Widget _buildListItem(
+      BuildContext context, DocumentSnapshot data, Cart cart) {
+    final record = Record.fromSnapshot(data);
+    return Padding(
+        key: ValueKey(record.name),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          child: ListTile(
+              title: Text(record.name),
+              trailing: Text(record.price.toString()),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailPage(record, cart),
+                  ), //navigates to the details of the book page
+                );
+              }),
+        ));
   }
 }
 
-Widget _buildList(
-    BuildContext context, List<DocumentSnapshot> snapshot, Cart cart) {
-  return ListView(
-    padding: const EdgeInsets.only(top: 20.0),
-    children:
-        snapshot.map((data) => _buildListItem(context, data, cart)).toList(),
-  );
-}
-
-Widget _buildListItem(BuildContext context, DocumentSnapshot data, Cart cart) {
-  final record = Record.fromSnapshot(data);
-  return Padding(
-      key: ValueKey(record.name),
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        child: ListTile(
-            title: Text(record.name),
-            trailing: Text(record.price.toString()),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailPage(record, cart),
-                ), //navigates to the details of the book page
-              );
-            }),
-      ));
-}
-
-//create a 'page' that displays the details of a book when you click on it
+//CREATE A PAGE THAT DISPLAYS BOOK DETAILS UPON CLICKING
 class DetailPage extends StatefulWidget {
   final Record listing;
   final Cart cart;
@@ -203,8 +256,6 @@ class _DetailPageState extends State<DetailPage> {
                       widget.listing.condition +
                       "\n Listed by: " +
                       widget.listing.username,
-                  // currently widget.listing.user will display UIDs at time which is not ideal, maybe link this with a profile page or smth in the future
-                  // Insert description of book. I.e what class it is used in (like what subject), what the quality is, who the seller is (contact information), etc. Whatever else we put in the database.
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.black,
