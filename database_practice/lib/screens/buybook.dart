@@ -138,7 +138,7 @@ class _DisplayBooksState extends State<DisplayBooks> {
   }
 
   getBookSnapshots() async {
-    var data = await database.collection('books').get();
+    var data = await database.collection('books').orderBy('price').get();
     setState(() {
       _allResults = data.docs;
     });
