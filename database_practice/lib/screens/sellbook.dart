@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'login.dart'; //gets the username variable
 import 'package:database_practice/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
@@ -146,8 +145,11 @@ class _SellBooksState extends State<SellBooks> {
                               //if there is an error
                               .catchError((error) =>
                                   print("Failed to add textbook")); //or this
-                          Navigator.of(context).popUntil((route) => route
-                              .isFirst); //perhaps add a "success" message here
+                          Navigator.of(context).pushReplacementNamed('/home');
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                "Textbook added"), //https://stackoverflow.com/questions/45948168/how-to-create-toast-in-flutter
+                          ));
                         } catch (e) {
                           setState(() {
                             _error = e.message;

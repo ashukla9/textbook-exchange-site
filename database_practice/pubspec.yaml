@@ -33,8 +33,6 @@ dependencies:
   provider: ^5.0.0
   auto_size_text: ^2.0.2
 
-  #braintree_payment: ^1.2.4
-
   #external url launcher
   url_launcher: ^6.0.3
 
