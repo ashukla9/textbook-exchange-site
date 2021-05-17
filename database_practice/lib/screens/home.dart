@@ -3,7 +3,6 @@
 //import statements: You basically always have to import flutter/material.dart
 import 'package:flutter/material.dart';
 import 'package:database_practice/static/colors.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:database_practice/main.dart';
 import 'signup.dart';
 

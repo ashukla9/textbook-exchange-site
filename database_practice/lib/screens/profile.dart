@@ -8,8 +8,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:database_practice/database.dart';
 
-import 'login.dart';
-
 //right now this functions more as an "edit profile" page lol
 
 class Profile extends StatefulWidget {
