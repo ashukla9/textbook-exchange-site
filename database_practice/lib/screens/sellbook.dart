@@ -131,7 +131,7 @@ class _SellBooksState extends State<SellBooks> {
                         try {
                           await database
                               .collection("books")
-                              .doc(_name)
+                              .doc()
                               .set({
                                 "name": _name,
                                 "price": double.parse(_price),
