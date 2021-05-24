@@ -44,12 +44,21 @@ class _ProfileState extends State<Profile> {
                     fontSize: 30, 
                     color: CustomColors.lsMaroon),
               ),
-              Text("Payment Url: ",
+              Text("Payment Url: ", //find a way to display payment url
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
                     color: CustomColors.lsMaroon),
               ),
+
+              Text("Notifications: ",
+                style: TextStyle( //find a way to display notifs
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                    color: CustomColors.lsMaroon),
+              ),
+
+
               Expanded(
                 child: Align(
                 alignment: Alignment.bottomCenter,

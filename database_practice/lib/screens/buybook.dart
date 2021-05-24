@@ -6,6 +6,8 @@ import 'package:database_practice/static/colors.dart';
 import 'package:database_practice/models/record.dart';
 import 'package:database_practice/models/cart.dart';
 
+import 'checkout.dart';
+
 class BuyBooks extends StatefulWidget {
   @override
   _BuyBooksState createState() {
@@ -69,7 +71,11 @@ class _BuyBooksState extends State<BuyBooks> {
             ),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, "/checkout");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Checkout(cart: cart,),
+                    ));
                 },
                 child: Text("Checkout"))
           ]));
