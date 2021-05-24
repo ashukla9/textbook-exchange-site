@@ -5,10 +5,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:database_practice/static/colors.dart';
 import 'package:database_practice/database.dart';
-
-import 'login.dart';
 
 //right now this functions more as an "edit profile" page lol
 
@@ -28,29 +26,49 @@ class _ProfileState extends State<Profile> {
     //VERY IMPORTANT! creates instance of Auth to get user information
     final FirebaseAuth auth = FirebaseAuth.instance;
     final currentUid = auth.currentUser.uid;
-    final currentName = auth.currentUser
-        .displayName; //added this variable so the user can see their username instead of a long string of numbers
+    final currentName = auth.currentUser.displayName; //added this variable so the user can see their username instead of a long string of numbers
 
     return Scaffold(
         appBar: AppBar(
-            title: Text(
-                "Profile") //will change this once we switch everything around and put it on the right pages
+            title: Text("Profile") //will change this once we switch everything around and put it on the right pages
             ),
-        body: Column(
-          children: [
-            Text("Welcome, " + currentName),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditProfile(currentUid),
-                    ), //navigates to the details of the book page
-                  );
-                },
-                child: Text("Edit Profile"))
-          ],
-        ));
+        body: Center(
+          child: Column(
+            children: [
+              SizedBox(
+                  height: 20,
+                ),
+              Text("Welcome, " + currentName,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30, 
+                    color: CustomColors.lsMaroon),
+              ),
+              Text("Payment Url: ",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                    color: CustomColors.lsMaroon),
+              ),
+              Expanded(
+                child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditProfile(currentUid),
+                      ), //navigates to the details of the book page
+                    );
+                  },
+                  child: Text("Edit Profile"))
+              ),
+              )
+            ],
+          )
+        )
+      );
   }
 }
 
@@ -66,7 +84,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     TextEditingController _paymentUrlController = new TextEditingController();
-    //imported from database.dart,properties
+    //imported from database.dart, properties
     _paymentUrlController.text = paymentUrl;
 
     return Scaffold(
@@ -84,7 +102,7 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(
                 height: 20,
               ),
-              Text("Enter your payment url:"),
+              Text("Enter your new payment url(i.e. https://paypal.me/faketester):" ),
               Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: TextField(

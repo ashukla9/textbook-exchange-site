@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'login.dart'; //gets the username variable
 import 'package:database_practice/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';

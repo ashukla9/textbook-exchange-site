@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:database_practice/main.dart';
 import 'package:database_practice/static/colors.dart';
+import 'package:database_practice/database.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -128,6 +129,16 @@ class _SignUpViewState extends State<SignUpView> {
         } else {
           String uid = await auth.createUserWithEmailAndPassword(
               _email, _password, _name);
+
+          //insert into the users database a new file
+          await database
+            .collection("users")
+              .doc(_name)
+              .set({
+                "displayName": _name,
+                "paymentUrl": "Add a URL",
+              });
+
           print("Created user with new ID $uid");
           Navigator.of(context).pushReplacementNamed('/home');
         }
