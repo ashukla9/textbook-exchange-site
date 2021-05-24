@@ -152,7 +152,10 @@ class _DisplayBooksState extends State<DisplayBooks> {
         children: <Widget>[
           TextField(
             controller: _searchController,
-            decoration: InputDecoration(prefixIcon: Icon(Icons.search)),
+            decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                hintText:
+                    "Search"), //https://stackoverflow.com/questions/49040679/flutter-how-to-make-a-textfield-with-hinttext-but-no-underline
           ),
           Expanded(
             child: ListView.builder(

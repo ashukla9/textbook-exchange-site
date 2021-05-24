@@ -256,7 +256,7 @@ class _SignUpViewState extends State<SignUpView> {
           style: TextStyle(
             fontSize: 22,
           ),
-          decoration: buildSignUpInputDecoration("Name"),
+          decoration: buildSignUpInputDecoration("First and Last Name"),
           onSaved: (value) => _name = value,
         ),
       );
