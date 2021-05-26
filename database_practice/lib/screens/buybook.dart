@@ -72,10 +72,12 @@ class _BuyBooksState extends State<BuyBooks> {
             ElevatedButton(
                 onPressed: () {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Checkout(cart: cart,),
-                    ));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Checkout(
+                          cart: cart,
+                        ),
+                      ));
                 },
                 child: Text("Checkout"))
           ]));
@@ -275,8 +277,15 @@ class _DetailPageState extends State<DetailPage> {
                 ), //SizedBox
                 ElevatedButton(
                     //add to cart
-                    onPressed: () {
+                    onPressed: () async {
                       widget.cart.addToCart(widget.listing);
+                      print(widget.listing.doc_id);
+                      await database
+                          .collection("books")
+                          .doc(widget.listing.doc_id)
+                          .update({
+                        "status": false,
+                      });
                       Navigator.pop(context);
                     },
                     child: Text("Add to Cart")),

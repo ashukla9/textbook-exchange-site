@@ -8,8 +8,11 @@ class Record {
   final String user;
   final String username;
   final String condition;
+  final bool status;
   //final String description;
   final DocumentReference reference;
+
+  final String doc_id;
 
   Record.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['name'] != null),
@@ -17,17 +20,21 @@ class Record {
         assert(map['author'] != null),
         assert(map['condition'] != null),
         assert(map['user'] != null),
+        assert(map['status'] != null),
         name = map['name'],
         price = map['price'],
         author = map['author'],
         condition = map['condition'],
         user = map['user'],
-        username = map['username'];
+        username = map['username'],
+        status = map['status'],
+        doc_id = reference
+            .id; //https://stackoverflow.com/questions/58844095/how-to-get-firestore-document-id
 
   Record.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data(), reference: snapshot.reference);
 
   @override
   String toString() =>
-      "Record<$name:$price:$author:$condition:$user:$username>";
+      "Record<$name:$price:$author:$condition:$user:$username:$status:$doc_id>";
 }
