@@ -131,13 +131,10 @@ class _SignUpViewState extends State<SignUpView> {
               _email, _password, _name);
 
           //insert into the users database a new file
-          await database
-            .collection("users")
-              .doc(_name)
-              .set({
-                "displayName": _name,
-                "paymentUrl": "Add a URL",
-              });
+          await database.collection("users").doc(uid).set({
+            "displayName": _name,
+            "paymentUrl": "Add a URL",
+          });
 
           print("Created user with new ID $uid");
           Navigator.of(context).pushReplacementNamed('/home');
