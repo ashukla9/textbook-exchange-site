@@ -46,8 +46,11 @@ class _BuyBooksState extends State<BuyBooks> {
           title: Text(record.name, style: TextStyle(fontSize: 16)),
           trailing: IconButton(
               icon: Icon(Icons.delete),
-              onPressed: () {
+              onPressed: () async {
                 cart.removeFromCart(record);
+                await database.collection("books").doc(record.doc_id).update({
+                  "status": true,
+                });
                 //refreshes the cart to see the new changes, source: https://stackoverflow.com/questions/55142992/flutter-delete-item-from-listview
                 Navigator.of(context).pop();
                 viewCart();
@@ -146,7 +149,11 @@ class _DisplayBooksState extends State<DisplayBooks> {
   }
 
   getBookSnapshots() async {
-    var data = await database.collection('books').orderBy('price').get();
+    var data = await database
+        .collection('books')
+        .where('status', isEqualTo: true)
+        .orderBy('price')
+        .get();
     setState(() {
       _allResults = data.docs;
     });
@@ -287,6 +294,9 @@ class _DetailPageState extends State<DetailPage> {
                         "status": false,
                       });
                       Navigator.pop(context);
+                      //viewCart(); WANT TO MOVE TO VIEWCART SO THE PAGE CAN RELOAD
+                      //Navigator.of(context).pushReplacementNamed('/cart'); would be another solution but
+                      //I can't figure out how to move the cart to its own file
                     },
                     child: Text("Add to Cart")),
               ],
@@ -297,3 +307,8 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 }
+
+/* Problems:
+#1: The cart doesn't save if you leave the page and come back
+#2: The buybooks page doesn't reload instantly when you move a book to your cart
+*/
