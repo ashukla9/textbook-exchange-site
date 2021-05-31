@@ -137,6 +137,7 @@ class _SellBooksState extends State<SellBooks> {
                                 "price": double.parse(_price),
                                 "author": _author,
                                 "condition": _condition,
+                                "status": true,
                                 "user": auth.currentUser.uid,
                                 "username": auth.currentUser
                                     .displayName, // changed to show the UID --> might need to change to name
