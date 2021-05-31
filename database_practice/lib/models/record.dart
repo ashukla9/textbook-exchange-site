@@ -5,8 +5,8 @@ class Record {
   final String name;
   final double price;
   final String author;
-  final String user;
-  final String username;
+  final String user; //seller uid
+  final String username; //seller display name
   final String condition;
   //final String description;
   final DocumentReference reference;

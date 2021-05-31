@@ -1,6 +1,4 @@
 // creates a class / model for a single user in the system
-// will connect to google login information based on uid and auto fill the name field!
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TbUser { // a class for the users
@@ -23,4 +21,8 @@ class TbUser { // a class for the users
 
   @override
   String toString() => "Record<$name:$paymentUrl:$notifications>";
+
+  List getNotifications() {
+    return notifications;
+  }
 }
