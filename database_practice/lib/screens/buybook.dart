@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import 'package:database_practice/database.dart';
 import 'package:database_practice/static/colors.dart';
 import 'package:database_practice/models/record.dart';

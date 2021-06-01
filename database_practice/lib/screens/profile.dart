@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:database_practice/static/colors.dart';
 import 'package:database_practice/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:database_practice/models/record.dart';
 
 //right now this functions more as an "edit profile" page lol
 
@@ -20,14 +22,28 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
 
+  //VERY IMPORTANT! creates instance of Auth to get user information
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  List _allResults = []; 
+  final currentUid = FirebaseAuth.instance.currentUser.uid;
+  final currentName = FirebaseAuth.instance.currentUser.displayName; //added this variable so the user can see their username instead of a long string of numbers
+    
+  getListedBooks() async { 
+      var data = await database
+          .collection('books')
+          .where('user', isEqualTo: currentUid)
+          .orderBy('price')
+          .get();
+      setState(() {
+        _allResults = data.docs;
+      });
+      return _allResults;
+    }
+  
   //add logic: if user is signed in, then display the page, but if theyre not signed in, ask to sign in/up
 
   Widget build(BuildContext context) {
-    //VERY IMPORTANT! creates instance of Auth to get user information
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final currentUid = auth.currentUser.uid;
-    final currentName = auth.currentUser.displayName; //added this variable so the user can see their username instead of a long string of numbers
-
+ 
     return Scaffold(
         appBar: AppBar(
             title: Text("Profile") //will change this once we switch everything around and put it on the right pages
@@ -58,6 +74,41 @@ class _ProfileState extends State<Profile> {
                     color: CustomColors.lsMaroon),
               ),
 
+              //currently active listings: 
+              
+              ElevatedButton(
+                onPressed: () { getListedBooks(); }, 
+                child: Text("Displayed Books")
+              ),
+
+              Expanded( //builds a list to display all books that the user has listed
+                child: ListView.builder( 
+                  itemCount: _allResults.length,
+                  itemBuilder: (context, index) {
+                    final item = _allResults[index];
+                    final record = Record.fromSnapshot(item);
+                    final bookID = record.doc_id;
+                    return Padding(
+                      key: ValueKey(record.name),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        child: ListTile(
+                            title: Text(record.name),
+                            trailing: Text(record.price.toString()), 
+                            //maybe change to "1 offers to buy" etc
+                            onTap: () async {
+                            //delete from cart
+                              database.collection('books').doc(bookID).delete();
+                              Navigator.pushNamed(context, '/profile');
+                            }),
+                      ));
+                  }
+                ),
+              ),
 
               Expanded(
                 child: Align(
@@ -78,7 +129,30 @@ class _ProfileState extends State<Profile> {
           )
         )
       );
+    
   }
+
+
+
+  /*Widget _buildListItem(
+      BuildContext context, DocumentSnapshot data) {
+        final record = Record.fromSnapshot(data);
+        return Padding(
+            key: ValueKey(record.name),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              child: ListTile(
+                  title: Text(record.name),
+                  trailing: Text(record.price.toString()),
+                //eventually add ontap logic to delete listing
+              ),
+            )
+          );
+  }*/
 }
 
 class EditProfile extends StatefulWidget {

@@ -60,9 +60,10 @@ class Checkout extends StatelessWidget {
                       await database
                         .collection("users")
                         .doc(sellers[i])
+                        .collection("notifications")
                           //.get(notifications) = var a 
-                          .set({
-                            "notifications": /*add a notif here...*/ "test",
+                        .doc("notif"+i.toString()).set({
+                            "status": /*add a notif here...*/ true,
                           });
                     Navigator.pushNamed(context, '/home');
                     }

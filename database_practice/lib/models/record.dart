@@ -37,4 +37,6 @@ class Record {
   @override
   String toString() =>
       "Record<$name:$price:$author:$condition:$user:$username:$status:$doc_id>";
+
+  
 }
