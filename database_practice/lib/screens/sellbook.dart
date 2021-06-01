@@ -141,6 +141,7 @@ class _SellBooksState extends State<SellBooks> {
                                 "user": auth.currentUser.uid,
                                 "username": auth.currentUser
                                     .displayName, // changed to show the UID --> might need to change to name
+                                "numberOfOffers": 0,
                               })
                               .then((value) => print("Textbook added"))
                               //if there is an error

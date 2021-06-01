@@ -98,7 +98,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         child: ListTile(
                             title: Text(record.name),
-                            trailing: Text(record.price.toString()), 
+                            trailing: Text(record.numberOfOffers.toString() + " offers"), 
                             //maybe change to "1 offers to buy" etc
                             onTap: () async {
                             //delete from cart

@@ -15,7 +15,7 @@ class Checkout extends StatelessWidget {
   final Cart cart;
   List cartAsAList;
   //create a growable String type list of sellers
-  List<String> sellers = <String>[]; 
+    //List<String> sellers = <String>[]; 
   
   Checkout({Key key, @required this.cart}) : super(key: key);
   @override
@@ -27,14 +27,14 @@ class Checkout extends StatelessWidget {
     //calculate the total
     for(var i = 0; i < cartAsAList.length; i++){
         total += cartAsAList[i].price;
+
         //also add all sellers to a list
         //add logic to check if seller is already on the list
-        sellers.add(cartAsAList[i].user);
+          //sellers.add(cartAsAList[i].user);
     }
 
     //build the notification list
-    
-
+  
     return Scaffold(
 
         appBar: AppBar(
@@ -55,7 +55,14 @@ class Checkout extends StatelessWidget {
                 ElevatedButton(
                   child: Text("Reserve Books"),
                   onPressed: () async { 
-                    for (int i = 0; i < sellers.length; i++) {
+                    
+                    for (int i = 0; i < cartAsAList.length; i++) {
+                      database.collection('books').doc(cartAsAList[i].doc_id).update({
+                        "numberOfOffers": FieldValue.increment(1)
+                      });
+                    }
+
+                    /*for (int i = 0; i < sellers.length; i++) {
                       //List<String> newNotifications = sellers[i].getNotifications();
                       await database
                         .collection("users")
@@ -64,10 +71,10 @@ class Checkout extends StatelessWidget {
                           //.get(notifications) = var a 
                         .doc("notif"+i.toString()).set({
                             "status": /*add a notif here...*/ true,
-                          });
+                          });*/
                     Navigator.pushNamed(context, '/home');
-                    }
                   }
+                  
                 )
 
               ]),

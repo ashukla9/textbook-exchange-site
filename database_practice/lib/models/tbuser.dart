@@ -22,6 +22,7 @@ class TbUser { // a class for the users
   @override
   String toString() => "Record<$name:$paymentUrl:$notifications>";
 
+  //not necessary i think 
   List getNotifications() {
     return notifications;
   }
