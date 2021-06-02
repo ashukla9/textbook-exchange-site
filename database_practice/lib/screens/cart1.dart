@@ -96,6 +96,7 @@ class _DisplayBooksState extends State<DisplayBooks> {
                 onPressed: () async {
                   await database.collection("books").doc(record.doc_id).update({
                     "view status": true,
+                    "buyer": "N/A",
                   });
                 }),
           ),
