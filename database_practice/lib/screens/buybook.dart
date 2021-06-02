@@ -4,7 +4,7 @@ import 'package:database_practice/database.dart';
 import 'package:database_practice/static/colors.dart';
 import 'package:database_practice/models/record.dart';
 import 'package:database_practice/models/cart.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'checkout.dart';
 
 class BuyBooks extends StatefulWidget {
@@ -27,7 +27,9 @@ class _BuyBooksState extends State<BuyBooks> {
             IconButton(
                 icon: Icon(Icons
                     .shopping_bag), //generates a list button in the actions widget
-                onPressed: viewCart //call the function _viewCart (you created)
+                onPressed: () async {
+                  Navigator.of(context).pushReplacementNamed('/cart');
+                } //call the function _viewCart (you created)
                 )
           ],
         ),
@@ -48,7 +50,7 @@ class _BuyBooksState extends State<BuyBooks> {
               onPressed: () async {
                 cart.removeFromCart(record);
                 await database.collection("books").doc(record.doc_id).update({
-                  "status": true,
+                  "view status": true,
                 });
                 //refreshes the cart to see the new changes, source: https://stackoverflow.com/questions/55142992/flutter-delete-item-from-listview
                 Navigator.of(context).pop();
@@ -91,7 +93,6 @@ class _BuyBooksState extends State<BuyBooks> {
 class DisplayBooks extends StatefulWidget {
   final Cart cart;
   DisplayBooks(this.cart);
-
   @override
   _DisplayBooksState createState() {
     return _DisplayBooksState();
@@ -150,7 +151,7 @@ class _DisplayBooksState extends State<DisplayBooks> {
   getBookSnapshots() async {
     var data = await database
         .collection('books')
-        .where('status', isEqualTo: true)
+        .where('view status', isEqualTo: true)
         .orderBy('price')
         .get();
     setState(() {
@@ -222,6 +223,8 @@ class DetailPage extends StatefulWidget {
   _DetailPageState createState() => _DetailPageState();
 }
 
+final FirebaseAuth auth = FirebaseAuth.instance;
+
 class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
@@ -284,18 +287,15 @@ class _DetailPageState extends State<DetailPage> {
                 ElevatedButton(
                     //add to cart
                     onPressed: () async {
-                      widget.cart.addToCart(widget.listing);
                       print(widget.listing.doc_id);
                       await database
                           .collection("books")
                           .doc(widget.listing.doc_id)
                           .update({
-                        "status": false,
+                        "view status": false,
+                        "buyer": auth.currentUser.uid,
                       });
-                      Navigator.pop(context);
-                      //viewCart(); WANT TO MOVE TO VIEWCART SO THE PAGE CAN RELOAD
-                      //Navigator.of(context).pushReplacementNamed('/cart'); would be another solution but
-                      //I can't figure out how to move the cart to its own file
+                      Navigator.of(context).pushReplacementNamed('/cart');
                     },
                     child: Text("Add to Cart")),
               ],

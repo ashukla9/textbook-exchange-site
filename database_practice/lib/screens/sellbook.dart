@@ -137,11 +137,11 @@ class _SellBooksState extends State<SellBooks> {
                                 "price": double.parse(_price),
                                 "author": _author,
                                 "condition": _condition,
-                                "status": true,
-                                "user": auth.currentUser.uid,
-                                "username": auth.currentUser
-                                    .displayName, // changed to show the UID --> might need to change to name
+                                "view status": true,
+                                "lister": auth.currentUser.uid,
+                                "lister username": auth.currentUser.displayName,
                                 "numberOfOffers": 0,
+                                "buyer": "N/A",
                               })
                               .then((value) => print("Textbook added"))
                               //if there is an error

@@ -7,7 +7,7 @@ import 'screens/buybook.dart';
 import 'screens/profile.dart';
 import 'screens/signup.dart';
 import 'screens/checkout.dart';
-
+import 'screens/cart1.dart';
 import 'main.dart';
 
 //organizes all the routes (which 'urls' link to which page)
@@ -25,7 +25,7 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   '/profile': (BuildContext context) => Profile(),
   '/signup': (BuildContext context) =>
       SignUpView(authFormType: AuthFormType.signUp),
-  '/cart': (BuildContext context) => BuyBooks(),
+  '/cart': (BuildContext context) => Cart1(),
 
   '/checkout': (BuildContext context) => Checkout(),
 };
