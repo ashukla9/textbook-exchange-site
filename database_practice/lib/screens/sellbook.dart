@@ -147,7 +147,8 @@ class _SellBooksState extends State<SellBooks> {
                               //if there is an error
                               .catchError((error) =>
                                   print("Failed to add textbook")); //or this
-                          Navigator.of(context).pushReplacementNamed('/home');
+                          Navigator.of(context)
+                              .pushReplacementNamed('/buyBooks');
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(
                                 "Textbook added"), //https://stackoverflow.com/questions/45948168/how-to-create-toast-in-flutter

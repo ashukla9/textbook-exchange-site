@@ -29,8 +29,7 @@ class _BuyBooksState extends State<BuyBooks> {
                     .shopping_bag), //generates a list button in the actions widget
                 onPressed: () async {
                   Navigator.of(context).pushReplacementNamed('/cart');
-                } //call the function _viewCart (you created)
-                )
+                })
           ],
         ),
         body: DisplayBooks());
@@ -230,7 +229,6 @@ class _DetailPageState extends State<DetailPage> {
                 ElevatedButton(
                     //add to cart
                     onPressed: () async {
-                      print(widget.listing.doc_id);
                       await database
                           .collection("books")
                           .doc(widget.listing.doc_id)
@@ -238,6 +236,7 @@ class _DetailPageState extends State<DetailPage> {
                         "view status": false,
                         "buyer": auth.currentUser.uid,
                       });
+                      Navigator.pop(context);
                       Navigator.of(context).pushReplacementNamed('/cart');
                     },
                     child: Text("Add to Cart")),
@@ -249,8 +248,3 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 }
-
-/* Problems:
-#1: The cart doesn't save if you leave the page and come back
-#2: The buybooks page doesn't reload instantly when you move a book to your cart
-*/
