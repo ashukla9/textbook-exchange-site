@@ -7,6 +7,7 @@ import 'package:database_practice/models/cart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'checkout.dart';
 
+//The book marketplace for people to buy textbooks
 class BuyBooks extends StatefulWidget {
   @override
   _BuyBooksState createState() {
@@ -28,7 +29,8 @@ class _BuyBooksState extends State<BuyBooks> {
                 icon: Icon(Icons
                     .shopping_bag), //generates a list button in the actions widget
                 onPressed: () async {
-                  Navigator.of(context).pushReplacementNamed('/cart');
+                  Navigator.of(context)
+                      .pushReplacementNamed('/cart'); //goes to the cart page
                 })
           ],
         ),
@@ -36,7 +38,7 @@ class _BuyBooksState extends State<BuyBooks> {
   }
 }
 
-//DISPLAYS BOOK LIST
+//displays book list
 class DisplayBooks extends StatefulWidget {
   @override
   _DisplayBooksState createState() {
@@ -45,11 +47,14 @@ class DisplayBooks extends StatefulWidget {
 }
 
 class _DisplayBooksState extends State<DisplayBooks> {
+  //controllers + lists are used for the search functionality
+  //used this video tutorial: https://www.youtube.com/watch?v=H3CCtCmBUoQ
   TextEditingController _searchController = TextEditingController();
   List _allResults = [];
   List _searchResults = [];
   Future resultsLoaded;
 
+  //sets listener + removes listener for the search controller (which reads from the search box)
   @override
   void initState() {
     super.initState();
@@ -63,6 +68,7 @@ class _DisplayBooksState extends State<DisplayBooks> {
     super.dispose;
   }
 
+//if anything has changed, will get book snapshots from database
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -73,8 +79,10 @@ class _DisplayBooksState extends State<DisplayBooks> {
     searchResultsList();
   }
 
+//if the search has changed, searches for book in database that contains the string being typed into the search box
   searchResultsList() {
-    var showResults = [];
+    var showResults =
+        []; //showResults is either a list of books with the string or the entire list of books
 
     if (_searchController.text != "") {
       for (var book in _allResults) {
@@ -93,10 +101,13 @@ class _DisplayBooksState extends State<DisplayBooks> {
     });
   }
 
+  //get books from the database and order them by price (with lowest price first)
   getBookSnapshots() async {
     var data = await database
         .collection('books')
-        .where('view status', isEqualTo: true)
+        .where('view status',
+            isEqualTo:
+                true) //this is used to make sure the books in a user's cart are not shown here
         .orderBy('price')
         .get();
     setState(() {
@@ -106,21 +117,24 @@ class _DisplayBooksState extends State<DisplayBooks> {
     return "complete";
   }
 
+//build book marketplace + display books
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: <Widget>[
           Container(
             padding: EdgeInsets.all(15),
-            child: Text('This is the book marketplace. Search and/or filter for books in the search bar below, and tap on any listing to see more details and add it to your cart!'),
-            ),
+            child: Text(
+                'This is the book marketplace. Search and/or filter for books in the search bar below, and tap on any listing to see more details and add it to your cart!'),
+          ),
           TextField(
             controller: _searchController,
             decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search),
                 hintText:
-                    "Search"), //https://stackoverflow.com/questions/49040679/flutter-how-to-make-a-textfield-with-hinttext-but-no-underline
+                    "Search"), //used this to add hint text: https://stackoverflow.com/questions/49040679/flutter-how-to-make-a-textfield-with-hinttext-but-no-underline
           ),
+          //pass searchResults list to build the list
           Expanded(
             child: ListView.builder(
                 itemCount: _searchResults.length,
@@ -157,13 +171,11 @@ class _DisplayBooksState extends State<DisplayBooks> {
   }
 }
 
-//CREATE A PAGE THAT DISPLAYS BOOK DETAILS UPON CLICKING
+//a page that displays book details
 class DetailPage extends StatefulWidget {
   final Record listing;
 
-  //DetailPage({Key key, @required this.listing}) : super(key: key);
   DetailPage(this.listing);
-  //const DetailPage ({ Key key, this.listing }): super(key: key);
 
   @override
   _DetailPageState createState() => _DetailPageState();
@@ -187,10 +199,11 @@ class _DetailPageState extends State<DetailPage> {
               children: [
                 Align(alignment: Alignment.centerRight, child: CloseButton()),
 
-                Icon(Icons.menu_book_rounded,
-                    color: CustomColors.lsMaroon,
-                    size: 140,
-                  ),
+                Icon(
+                  Icons.menu_book_rounded,
+                  color: CustomColors.lsMaroon,
+                  size: 140,
+                ),
 
                 SizedBox(
                   height: 20,
@@ -231,7 +244,8 @@ class _DetailPageState extends State<DetailPage> {
                   height: 20,
                 ), //SizedBox
                 ElevatedButton(
-                    //add to cart
+                    //add to cart - changes view status to false so it won't display in marketplace
+                    //states that buyer = user so the user will only see their own cart purchases in the database
                     onPressed: () async {
                       await database
                           .collection("books")
@@ -239,7 +253,7 @@ class _DetailPageState extends State<DetailPage> {
                           .update({
                         "view status": false,
                         "buyer": auth.currentUser.uid,
-                      }); //isn't updating when you use the back button - need to delete the back button
+                      });
                       Navigator.of(context).pushReplacementNamed('/cart');
                     },
                     child: Text("Add to Cart")),

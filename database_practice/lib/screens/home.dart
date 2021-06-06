@@ -1,11 +1,9 @@
-// THIS IS THE HOME SCREEN! Textable Home
-
-//import statements: You basically always have to import flutter/material.dart
 import 'package:flutter/material.dart';
 import 'package:database_practice/static/colors.dart';
 import 'package:database_practice/main.dart';
 import 'signup.dart';
 
+//home screen
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -14,7 +12,7 @@ class HomeScreen extends StatelessWidget {
         leading: Padding(
           padding: EdgeInsets.only(left: 12),
           child: Image.asset(
-            'assets/lakesidelogo.jpg', //replace this with either our own logo or smth
+            'assets/lakesidelogo.jpg',
           ),
         ),
         title: Text('Textbook Exchange'),
@@ -24,7 +22,6 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 20), //adding space between widgets
-
             Text(
               'LS Textbook Xchange',
               textAlign: TextAlign.center,
@@ -54,6 +51,7 @@ class HomeScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       )),
                   onPressed: () async {
+                    //logs people out if needed
                     try {
                       AuthService auth = Provider.of(context).auth;
                       await auth.signOut();

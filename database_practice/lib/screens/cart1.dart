@@ -7,8 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:countdown_flutter/countdown_flutter.dart';
 import 'checkout.dart';
 
-//Once you close the app or log out, the cart should empty itself out
-
+//cart where people can see books they've saved
 class Cart1 extends StatefulWidget {
   @override
   _Cart1State createState() {
@@ -75,7 +74,7 @@ class _Cart1State extends State<Cart1> {
   }
 }
 
-//DISPLAYS BOOK LIST
+//displays book list
 class DisplayBooks extends StatefulWidget {
   @override
   _DisplayBooksState createState() {
@@ -94,6 +93,7 @@ class _DisplayBooksState extends State<DisplayBooks> {
     resultsLoaded = getBookSnapshots();
   }
 
+//only gets books in user's cart
   getBookSnapshots() async {
     var data = await database
         .collection('books')
@@ -109,10 +109,12 @@ class _DisplayBooksState extends State<DisplayBooks> {
   Widget build(BuildContext context) {
     return Container(
         child: Column(children: <Widget>[
-      if (_allResults.length != 0)
+      if (_allResults.length != 0) //if there are books in the cart...
         Countdown(
-          duration: Duration(minutes: 1),
+          //use a timer so that books don't sit in a user's cart indefinitely and then aren't able to be displayed in marketplace
+          duration: Duration(minutes: 25),
           onFinish: () async {
+            //when it's finished, the items are deleted from the cart and visible in the marketplace again
             for (var i = 0; i < _allResults.length; i++) {
               deletefromcart(_allResults[i]);
             }
@@ -135,13 +137,15 @@ class _DisplayBooksState extends State<DisplayBooks> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Checkout(cart: _allResults),
+                  builder: (context) =>
+                      Checkout(cart: _allResults), //goes to checkout
                 ));
           },
           child: Text("Checkout")),
     ]));
   }
 
+//delete books from cart + move them back to marketplace
   deletefromcart(DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
     database.collection("books").doc(record.doc_id).update({
@@ -151,6 +155,7 @@ class _DisplayBooksState extends State<DisplayBooks> {
   }
 }
 
+//build list of books in cart
 Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
   final record = Record.fromSnapshot(data);
   return Padding(
@@ -166,6 +171,7 @@ Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
           trailing: IconButton(
               icon: Icon(Icons.delete),
               onPressed: () async {
+                //if deleted, move back to marketplace
                 await database.collection("books").doc(record.doc_id).update({
                   "view status": true,
                   "buyer": "N/A",
