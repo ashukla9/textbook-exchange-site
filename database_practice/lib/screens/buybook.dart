@@ -235,8 +235,7 @@ class _DetailPageState extends State<DetailPage> {
                           .update({
                         "view status": false,
                         "buyer": auth.currentUser.uid,
-                      });
-                      Navigator.pop(context);
+                      }); //isn't updating when you use the back button - need to delete the back button
                       Navigator.of(context).pushReplacementNamed('/cart');
                     },
                     child: Text("Add to Cart")),

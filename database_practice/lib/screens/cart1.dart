@@ -4,6 +4,7 @@ import 'package:database_practice/database.dart';
 import 'package:database_practice/static/colors.dart';
 import 'package:database_practice/models/record.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:countdown_flutter/countdown_flutter.dart';
 
 //Once you close the app or log out, the cart should empty itself out
 
@@ -59,6 +60,20 @@ class _DisplayBooksState extends State<DisplayBooks> {
   Widget build(BuildContext context) {
     return Container(
         child: Column(children: <Widget>[
+      if (_allResults.length != 0)
+        Countdown(
+          duration: Duration(minutes: 1),
+          onFinish: () async {
+            for (var i = 0; i < _allResults.length; i++) {
+              deletefromcart(_allResults[i]);
+            }
+            await Future.delayed(Duration(seconds: 1));
+            Navigator.pushReplacementNamed(context, '/buyBooks');
+          },
+          builder: (BuildContext ctx, Duration remaining) {
+            return Text('');
+          },
+        ),
       Expanded(
         child: ListView.builder(
           itemCount: _allResults.length,
@@ -79,29 +94,36 @@ class _DisplayBooksState extends State<DisplayBooks> {
     ]));
   }
 
-  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
+  deletefromcart(DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
-    return Padding(
-        key: ValueKey(record.name),
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          child: ListTile(
-            title: Text(record.name),
-            trailing: IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () async {
-                  await database.collection("books").doc(record.doc_id).update({
-                    "view status": true,
-                    "buyer": "N/A",
-                  });
-                  Navigator.pop(context);
-                  Navigator.of(context).pushReplacementNamed('/cart');
-                }),
-          ),
-        ));
+    database.collection("books").doc(record.doc_id).update({
+      "view status": true,
+      "buyer": "N/A",
+    });
   }
+}
+
+Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
+  final record = Record.fromSnapshot(data);
+  return Padding(
+      key: ValueKey(record.name),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        child: ListTile(
+          title: Text(record.name),
+          trailing: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () async {
+                await database.collection("books").doc(record.doc_id).update({
+                  "view status": true,
+                  "buyer": "N/A",
+                });
+                Navigator.of(context).pushReplacementNamed('/cart');
+              }),
+        ),
+      ));
 }
