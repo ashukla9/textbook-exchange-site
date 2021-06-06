@@ -29,9 +29,8 @@ class Checkout extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-            title: Text(
-                "Sell Books") //will change this once we switch everything around and put it on the right pages
-            ),
+            title: Text("Sell Books"),
+        ), //will change this once we switch everything around and put it on the right pages
         body: Padding(
           padding: EdgeInsets.all(15),
           child: SingleChildScrollView(
@@ -52,7 +51,6 @@ class Checkout extends StatelessWidget {
                   ElevatedButton(
                       child: Text("Reserve Books"),
                       onPressed: () {
-                        notifySellers(cart);
                         Navigator.pushNamed(context, '/home');
                       })
                 ]
@@ -63,8 +61,4 @@ class Checkout extends StatelessWidget {
   }
 }
 
-notifySellers(List cartBooks) async {
-  //loop through the cartbooks array and get the uid of all sellers
-  //connect to users database
-  //add a notification to the notification variable for each seller
-}
+
