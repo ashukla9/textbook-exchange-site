@@ -73,7 +73,7 @@ class _BuyBooksState extends State<BuyBooks> {
                   padding: const EdgeInsets.only(top: 10.0),
                   children: divided), //see: final List<Widget> divided
             ),
-            ElevatedButton(
+            /*ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                       context,
@@ -83,7 +83,7 @@ class _BuyBooksState extends State<BuyBooks> {
                         ),
                       ));
                 },
-                child: Text("Checkout"))
+                child: Text("Checkout"))*/
           ]));
     }));
   }

@@ -10,7 +10,7 @@ import 'buybook.dart';
 const _url = 'https://flutter.dev';
 
 class Checkout extends StatelessWidget {
-  final Cart cart;
+  final List cart;
   List cartAsAList;
   List sellers;
 
@@ -18,38 +18,49 @@ class Checkout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double total = 0;
-    cartAsAList = cart.cartBooks.toList();
+    String totalString = "";
+    //cartAsAList = cart.toList();
 
     //calculate the total
-    for (var i = 0; i < cartAsAList.length; i++) {
-      total += cartAsAList[i].price;
+    for (var i = 0; i < cart.length; i++) {
+      total += cart[i].get('price');
     }
+
+    totalString = total.toStringAsFixed(2);
 
     return Scaffold(
         appBar: AppBar(
             title: Text(
                 "Sell Books") //will change this once we switch everything around and put it on the right pages
             ),
-        body: SingleChildScrollView(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("Your total is: " +
-                    total.toString()), //convert total to a string
+        body: Padding(
+          padding: EdgeInsets.all(15),
+          child: SingleChildScrollView(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text("Your total is: \$" + totalString,
+                    style: TextStyle(fontSize: 30),
+                    ), //convert total to a string
 
-                SizedBox(height: 20), //adding space between widgets
+                  SizedBox(height: 20), //adding space between widgets
 
-                Text(
-                    "Once you confirm your purchase / reservation, the sellers will be in contact with you with more details on how to pay."), //convert total to a string
+                  Text(
+                      "Once you confirm your purchase / reservation, the sellers will be in contact with you with more details on how to pay."), //convert total to a string
 
-                ElevatedButton(
-                    child: Text("Reserve Books"),
-                    onPressed: () {
-                      notifySellers(cartAsAList);
-                      Navigator.pushNamed(context, '/home');
-                    })
-              ]),
-        ));
+                  SizedBox(height: 20),
+                  
+                  ElevatedButton(
+                      child: Text("Reserve Books"),
+                      onPressed: () {
+                        notifySellers(cartAsAList);
+                        Navigator.pushNamed(context, '/home');
+                      })
+                ]
+              ),
+           )
+        )
+      );
   }
 }
 
