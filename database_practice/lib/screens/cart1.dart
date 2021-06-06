@@ -21,41 +21,35 @@ class _Cart1State extends State<Cart1> {
         appBar: AppBar(
           title: Text('Cart'),
         ),
-        body: DisplayBooks());
+        body: displayBooks(context));
   }
 }
 
 //DISPLAYS BOOK LIST
-class DisplayBooks extends StatefulWidget {
-  @override
-  _DisplayBooksState createState() {
-    return _DisplayBooksState();
-  }
-}
-
-class _DisplayBooksState extends State<DisplayBooks> {
+Widget displayBooks(BuildContext context) {
   final FirebaseAuth auth = FirebaseAuth.instance;
-  List _allResults = [];
-  Future resultsLoaded;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    resultsLoaded = getBookSnapshots();
-  }
-
-  getBookSnapshots() async {
-    var data = await database
+  return StreamBuilder<QuerySnapshot>(
+    stream: database
         .collection('books')
         .where('view status', isEqualTo: false)
         .where('buyer', isEqualTo: auth.currentUser.uid)
-        .get();
-    setState(() {
-      _allResults = data.docs;
-    });
-    return "complete";
-  }
+        .snapshots(),
+    builder: (context, snapshot) {
+      if (!snapshot.hasData) return LinearProgressIndicator();
+      // changed bc of Firebase documentation
+      return _buildList(context, snapshot.data.docs);
+    },
+  );
+}
 
+Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
+  return ListView(
+    padding: const EdgeInsets.only(top: 20.0),
+    children: snapshot.map((data) => _buildListItem(context, data)).toList(),
+  );
+}
+
+/*
   Widget build(BuildContext context) {
     return Container(
         child: Column(children: <Widget>[
@@ -77,29 +71,28 @@ class _DisplayBooksState extends State<DisplayBooks> {
           },
           child: Text("Checkout")) */
     ]));
-  }
+  } */
 
-  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
-    final record = Record.fromSnapshot(data);
-    return Padding(
-        key: ValueKey(record.name),
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          child: ListTile(
-            title: Text(record.name),
-            trailing: IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () async {
-                  await database.collection("books").doc(record.doc_id).update({
-                    "view status": true,
-                    "buyer": "N/A",
-                  });
-                }),
-          ),
-        ));
-  }
+Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
+  final record = Record.fromSnapshot(data);
+  return Padding(
+      key: ValueKey(record.name),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        child: ListTile(
+          title: Text(record.name),
+          trailing: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () async {
+                await database.collection("books").doc(record.doc_id).update({
+                  "view status": true,
+                  "buyer": "N/A",
+                });
+              }),
+        ),
+      ));
 }

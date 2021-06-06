@@ -33,66 +33,12 @@ class _BuyBooksState extends State<BuyBooks> {
                 )
           ],
         ),
-        body: DisplayBooks(cart));
-  }
-
-//DISPLAYS USERS CART
-// eventually this will probably be it's own file because we might want users to be able to view their cart from
-//    any of the screens rather than JUST the 'buy books' screen.
-  void viewCart() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext context) {
-      final Iterable<ListTile> tiles = cart.cartBooks.map((Record record) {
-        return ListTile(
-          title: Text(record.name, style: TextStyle(fontSize: 16)),
-          trailing: IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () async {
-                cart.removeFromCart(record);
-                await database.collection("books").doc(record.doc_id).update({
-                  "view status": true,
-                });
-                //refreshes the cart to see the new changes, source: https://stackoverflow.com/questions/55142992/flutter-delete-item-from-listview
-                Navigator.of(context).pop();
-                viewCart();
-              }),
-        );
-      });
-
-      final List<Widget> divided = ListTile.divideTiles(
-              //styles the listTile??
-              context: context,
-              tiles: tiles)
-          .toList(); //creates a list with the elements of this "iterable"
-
-      return Scaffold(
-          appBar: AppBar(title: Text('Cart')),
-          body: Column(children: [
-            Expanded(
-              child: ListView(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  children: divided), //see: final List<Widget> divided
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Checkout(
-                          cart: cart,
-                        ),
-                      ));
-                },
-                child: Text("Checkout"))
-          ]));
-    }));
+        body: DisplayBooks());
   }
 }
 
 //DISPLAYS BOOK LIST
 class DisplayBooks extends StatefulWidget {
-  final Cart cart;
-  DisplayBooks(this.cart);
   @override
   _DisplayBooksState createState() {
     return _DisplayBooksState();
@@ -176,16 +122,14 @@ class _DisplayBooksState extends State<DisplayBooks> {
             child: ListView.builder(
                 itemCount: _searchResults.length,
                 itemBuilder: (BuildContext context, int index) =>
-                    _buildListItem(
-                        context, _searchResults[index], widget.cart)),
+                    _buildListItem(context, _searchResults[index])),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildListItem(
-      BuildContext context, DocumentSnapshot data, Cart cart) {
+  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
     return Padding(
         key: ValueKey(record.name),
@@ -202,7 +146,7 @@ class _DisplayBooksState extends State<DisplayBooks> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DetailPage(record, cart),
+                    builder: (context) => DetailPage(record),
                   ), //navigates to the details of the book page
                 );
               }),
@@ -213,10 +157,9 @@ class _DisplayBooksState extends State<DisplayBooks> {
 //CREATE A PAGE THAT DISPLAYS BOOK DETAILS UPON CLICKING
 class DetailPage extends StatefulWidget {
   final Record listing;
-  final Cart cart;
 
   //DetailPage({Key key, @required this.listing}) : super(key: key);
-  DetailPage(this.listing, this.cart);
+  DetailPage(this.listing);
   //const DetailPage ({ Key key, this.listing }): super(key: key);
 
   @override
