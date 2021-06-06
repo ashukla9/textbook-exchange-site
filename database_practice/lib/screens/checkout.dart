@@ -11,7 +11,6 @@ const _url = 'https://flutter.dev';
 
 class Checkout extends StatelessWidget {
   final List cart;
-  List cartAsAList;
   List sellers;
 
   Checkout({Key key, @required this.cart}) : super(key: key);
@@ -53,7 +52,7 @@ class Checkout extends StatelessWidget {
                   ElevatedButton(
                       child: Text("Reserve Books"),
                       onPressed: () {
-                        notifySellers(cartAsAList);
+                        notifySellers(cart);
                         Navigator.pushNamed(context, '/home');
                       })
                 ]
@@ -63,9 +62,6 @@ class Checkout extends StatelessWidget {
       );
   }
 }
-
-void _launchURL() async =>
-    await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
 
 notifySellers(List cartBooks) async {
   //loop through the cartbooks array and get the uid of all sellers
