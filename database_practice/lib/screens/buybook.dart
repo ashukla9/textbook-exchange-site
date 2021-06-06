@@ -110,6 +110,10 @@ class _DisplayBooksState extends State<DisplayBooks> {
     return Container(
       child: Column(
         children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(15),
+            child: Text('This is the book marketplace. Search and/or filter for books in the search bar below, and tap on any listing to see more details and add it to your cart!'),
+            ),
           TextField(
             controller: _searchController,
             decoration: InputDecoration(
@@ -183,11 +187,11 @@ class _DetailPageState extends State<DetailPage> {
               children: [
                 Align(alignment: Alignment.centerRight, child: CloseButton()),
 
-                CircleAvatar(
-                  //will put the image that user uploads in here!!
-                  backgroundColor: CustomColors.lsMaroon,
-                  radius: 90,
-                ),
+                Icon(Icons.menu_book_rounded,
+                    color: CustomColors.lsMaroon,
+                    size: 140,
+                  ),
+
                 SizedBox(
                   height: 20,
                 ), //SizedBox

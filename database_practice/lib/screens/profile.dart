@@ -37,7 +37,6 @@ class _ProfileState extends State<Profile> {
       setState(() {
         _allResults = data.docs;
       });
-
       return _allResults;
     }
   
@@ -61,27 +60,13 @@ class _ProfileState extends State<Profile> {
                     fontSize: 30, 
                     color: CustomColors.lsMaroon),
               ),
-              Text("Payment Url: ", //find a way to display payment url
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                    color: CustomColors.lsMaroon),
-              ),
-
-              Text("Notifications: ",
-                style: TextStyle( //find a way to display notifs
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                    color: CustomColors.lsMaroon),
-              ),
 
               //currently active listings: 
               
               ElevatedButton(
                 onPressed: () { getListedBooks(); }, 
-                child: Text("Displayed Books")
+                child: Text("View Listings & Offers")
               ),
-
 
               Expanded( //builds a list to display all books that the user has listed
                 child: ListView.builder( 

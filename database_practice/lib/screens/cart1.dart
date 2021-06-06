@@ -19,10 +19,58 @@ class _Cart1State extends State<Cart1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Cart'),
+      appBar: AppBar(
+        title: Text('Cart'),
+      ),
+      body: DisplayBooks(),
+      endDrawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('Menu'),
+              decoration: BoxDecoration(
+                color: CustomColors.lsMaroon,
+              ),
+            ),
+            ListTile(
+              title: Text('Home'),
+              onTap: () {
+                Navigator.pushNamed(context, '/home');
+              },
+            ),
+            ListTile(
+              title: Text('Cart'),
+              onTap: () {
+                Navigator.pushNamed(context, '/cart');
+              },
+            ),
+            ListTile(
+              title: Text('Marketplace'),
+              onTap: () {
+                Navigator.pushNamed(context, '/buyBooks');
+              },
+            ),
+            ListTile(
+              title: Text('Sell A Book'),
+              onTap: () {
+                Navigator.pushNamed(context, '/sellBooks');
+              },
+            ),
+            ListTile(
+              title: Text('Profile'),
+              onTap: () {
+                Navigator.pushNamed(context, '/profile');
+              },
+            ),
+          ],
         ),
-        body: DisplayBooks());
+      ),
+    );
   }
 }
 
@@ -81,16 +129,15 @@ class _DisplayBooksState extends State<DisplayBooks> {
               _buildListItem(context, _allResults[index]),
         ),
       ),
-      /*  ElevatedButton(
+      ElevatedButton(
           onPressed: () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Checkout(
-                  ),
+                  builder: (context) => Checkout(cart: _allResults),
                 ));
           },
-          child: Text("Checkout")) */
+          child: Text("Checkout")),
     ]));
   }
 

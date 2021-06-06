@@ -87,13 +87,13 @@ class HomeScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              title: Text('Buy Books'),
+              title: Text('Marketplace'),
               onTap: () {
                 Navigator.pushNamed(context, '/buyBooks');
               },
             ),
             ListTile(
-              title: Text('Sell Books'),
+              title: Text('Sell A Book'),
               onTap: () {
                 Navigator.pushNamed(context, '/sellBooks');
               },
