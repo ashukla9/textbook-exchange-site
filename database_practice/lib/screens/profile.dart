@@ -37,6 +37,7 @@ class _ProfileState extends State<Profile> {
       setState(() {
         _allResults = data.docs;
       });
+
       return _allResults;
     }
   
@@ -80,6 +81,7 @@ class _ProfileState extends State<Profile> {
                 onPressed: () { getListedBooks(); }, 
                 child: Text("Displayed Books")
               ),
+
 
               Expanded( //builds a list to display all books that the user has listed
                 child: ListView.builder( 

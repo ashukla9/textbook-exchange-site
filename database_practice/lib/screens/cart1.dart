@@ -4,6 +4,7 @@ import 'package:database_practice/database.dart';
 import 'package:database_practice/static/colors.dart';
 import 'package:database_practice/models/record.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'checkout.dart';
 
 //Once you close the app or log out, the cart should empty itself out
 
@@ -52,25 +53,30 @@ Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
 /*
   Widget build(BuildContext context) {
     return Container(
-        child: Column(children: <Widget>[
-      Expanded(
-        child: ListView.builder(
-          itemCount: _allResults.length,
-          itemBuilder: (BuildContext context, int index) =>
-              _buildListItem(context, _allResults[index]),
-        ),
-      ),
-      /*  ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Checkout(
-                  ),
-                ));
-          },
-          child: Text("Checkout")) */
-    ]));
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: ListView.builder(
+                itemCount: _allResults.length,
+                itemBuilder: (BuildContext context, int index) =>
+                    _buildListItem(context, _allResults[index]),
+              ),
+            ),
+      
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Checkout(cart: _allResults,),
+                      )
+                  );
+                },
+                child: Text("Checkout")
+            ) 
+          ]
+        )
+    );
   } */
 
 Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
