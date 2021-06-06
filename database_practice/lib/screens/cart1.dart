@@ -5,6 +5,7 @@ import 'package:database_practice/static/colors.dart';
 import 'package:database_practice/models/record.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:countdown_flutter/countdown_flutter.dart';
+import 'checkout.dart';
 
 //Once you close the app or log out, the cart should empty itself out
 
