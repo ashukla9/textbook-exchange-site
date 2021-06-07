@@ -43,12 +43,13 @@ class HomeScreen extends StatelessWidget {
               ElevatedButton(
                   //make this bigger!
                   style: ElevatedButton.styleFrom(
-                      primary: CustomColors.lsMaroon,
+                      primary: CustomColors.offWhite,
                       padding:
                           EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                       textStyle: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
+                        decorationColor: Colors.black
                       )),
                   onPressed: () async {
                     //logs people out if needed

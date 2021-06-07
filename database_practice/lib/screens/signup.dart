@@ -137,6 +137,7 @@ class _SignUpViewState extends State<SignUpView> {
           await database.collection("users").doc(uid).set({
             "displayName": _name,
             "paymentUrl": "Add a URL",
+            "email": _email,
           });
 
           print("Created user with new ID $uid");

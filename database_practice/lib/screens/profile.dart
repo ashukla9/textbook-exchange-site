@@ -29,7 +29,17 @@ class _ProfileState extends State<Profile> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Profile")),
+        appBar: AppBar(
+          title: Text("Profile"),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.refresh), 
+              onPressed: () {
+                Navigator.pushNamed(context, '/profile');
+              }
+            )
+          ]
+        ),
         body: Center(
             child: Column(
           children: [
@@ -43,32 +53,24 @@ class _ProfileState extends State<Profile> {
                       fontSize: 30,
                       color: CustomColors.lsMaroon),
                 ),
+                SizedBox(height:10),
                 Text(
-                    "This is your profile page. This is where you can view all your current listings and see when your books are added to someone's cart or checked out."),
+                    "This is your profile page, where you can view all your book listings. If the outline is red, that means someone has reserved your book! Click to find out more details. It's up to you to contact the interested customer and make that transaction! When it's complete, press the delete button to permanently remove your listing from the database."),
                 SizedBox(height: 20)
               ]),
             ),
-            Text("Current Listings:"),
+            Text("Current Listings:",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: CustomColors.lsMaroon
+                )
+            ),
             SizedBox(height: 20),
 
             //displays currently active listings:
             DisplayBooks(),
 
-            //edit profile button
-            /*Expanded(
-                child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EditProfile(currentUid),
-                            ),
-                          );
-                        },
-                        child: Text("Edit Profile"))),
-              )*/
           ],
         )));
   }
@@ -131,6 +133,15 @@ Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
               ),
               child: ListTile(
                 title: Text(record.name),
+                //on tap, display more information about the person who reserved this book
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailPage(record),
+                    ), //navigates to the details of the book page
+                  );
+              },
                 trailing: IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () async {
@@ -160,6 +171,81 @@ Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
                     }),
               ),
             ));
+}
+
+//a page that displays book details
+class DetailPage extends StatefulWidget {
+  final Record listing;
+
+  DetailPage(this.listing);
+
+  @override
+  _DetailPageState createState() => _DetailPageState();
+}
+
+final FirebaseAuth auth = FirebaseAuth.instance;
+
+class _DetailPageState extends State<DetailPage> {
+  @override
+  Widget build(BuildContext context) {
+
+    //get the name & email of the interested buyer based off of uid
+    String buyeruid = widget.listing.user.toString();
+    
+    var buyer;
+
+    //HELPPPPPPPPP 
+   //how to get the email then?? retrieve a single field of a single doc? 
+    getBuyer() async {
+      var data = await database.collection("users").doc(buyeruid).get();
+      setState(() {
+         buyer = data;     
+      });
+      return "complete";
+    }
+
+    return Center(
+      child: Card(
+        elevation: 10,
+        shadowColor: Colors.amber[100],
+        child: SizedBox(
+          width: 350,
+          height: 530,
+          child: Padding(
+            padding: const EdgeInsets.all(25.0),
+            child: Column(
+              children: [
+                Align(alignment: Alignment.centerRight, child: CloseButton()),
+
+                Icon(
+                  Icons.person_pin,
+                  color: CustomColors.lsMaroon,
+                  size: 140,
+                ),
+
+                SizedBox(
+                  height: 20,
+                ), //SizedBox
+                Text(
+
+                  //HELPPPPPPPPP 
+                  //THIS IS WHERE THE EMAIL IS SUPPOSD TO BE DISPLAYED
+                  buyer.getString("email"),
+
+
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: CustomColors.lsMaroon,
+                    fontWeight: FontWeight.w500,
+                  ), //Textstyle
+                ), //Text
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 //Edit profile class, might be deleted

@@ -166,7 +166,8 @@ class _DisplayBooksState extends State<DisplayBooks> {
                     builder: (context) => DetailPage(record),
                   ), //navigates to the details of the book page
                 );
-              }),
+              }
+          ),
         ));
   }
 }
