@@ -208,10 +208,8 @@ class _DetailPageState extends State<DetailPage> {
                   height: 20,
                 ), //SizedBox
                 Text(
-                  "Email: " + buyeruid,
-                  //HELPPPPPPPPP
-                  //THIS IS WHERE THE EMAIL IS SUPPOSD TO BE DISPLAYED
-
+                  "To collect payment and complete book delivery, please contact your customer at " +
+                      buyeruid,
                   style: TextStyle(
                     fontSize: 30,
                     color: CustomColors.lsMaroon,
