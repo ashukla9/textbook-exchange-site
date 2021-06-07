@@ -211,7 +211,7 @@ class _DetailPageState extends State<DetailPage> {
                   "To collect payment and complete book delivery, please contact your customer at " +
                       buyeruid,
                   style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 20,
                     color: CustomColors.lsMaroon,
                     fontWeight: FontWeight.w500,
                   ), //Textstyle

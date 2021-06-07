@@ -28,7 +28,8 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 50, //how to specify?
-                  color: Colors.white),
+                  color: Colors.white
+              ),
             ),
 
             SizedBox(height: 20), //adding space between widgets
@@ -43,13 +44,12 @@ class HomeScreen extends StatelessWidget {
               ElevatedButton(
                   //make this bigger!
                   style: ElevatedButton.styleFrom(
-                      primary: CustomColors.offWhite,
+                      primary: CustomColors.lsMaroon,
                       padding:
                           EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                       textStyle: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        decorationColor: Colors.black
                       )),
                   onPressed: () async {
                     //logs people out if needed
