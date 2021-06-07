@@ -59,7 +59,7 @@ class _ProfileState extends State<Profile> {
                 SizedBox(height: 20)
               ]),
             ),
-            Text("Current Listings:",
+            Text("Your Listings:",
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
