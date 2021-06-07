@@ -48,7 +48,7 @@ class _ProfileState extends State<Profile> {
                 SizedBox(height: 20)
               ]),
             ),
-            Text("Current Listings:"),
+            Text("Your Listings:"),
             SizedBox(height: 20),
 
             //displays currently active listings:
