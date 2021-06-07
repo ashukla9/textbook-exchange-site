@@ -151,7 +151,7 @@ class _SellBooksState extends State<SellBooks> {
                                     "price": double.parse(_price),
                                     "author": _author,
                                     "condition": _condition,
-                                    "view status": true,
+                                    "view status": "marketplace",
                                     "lister": auth.currentUser.uid,
                                     "lister username":
                                         auth.currentUser.displayName,
