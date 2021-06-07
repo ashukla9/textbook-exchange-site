@@ -132,21 +132,43 @@ Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
   return Padding(
       key: ValueKey(record.name),
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        child: ListTile(
-          title: Text(record.name),
-          trailing: IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () async {
-                //if deleted, move back to marketplace
-                await database.collection("books").doc(record.doc_id).delete();
-              }),
-        ),
-      ));
+      child: record.status == "reserved"
+          ? Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.red),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              child: ListTile(
+                title: Text(record.name),
+                trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () async {
+                      //delete permanently
+                      await database
+                          .collection("books")
+                          .doc(record.doc_id)
+                          .delete();
+                    }),
+              ),
+            )
+          : Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              child: ListTile(
+                title: Text(record.name),
+                trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () async {
+                      //delete permanently
+                      await database
+                          .collection("books")
+                          .doc(record.doc_id)
+                          .delete();
+                    }),
+              ),
+            ));
 }
 
 /*Widget _buildListItem(

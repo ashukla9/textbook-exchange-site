@@ -1,11 +1,11 @@
 // a checkout screen: this is where the user would pay for their books
 
 import 'package:url_launcher/url_launcher.dart'; //use this package to take buyer to external url to pay
-
+import 'package:database_practice/models/record.dart';
 import 'package:flutter/material.dart';
 import 'package:database_practice/models/cart.dart';
 import 'package:database_practice/database.dart';
-import 'buybook.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 const _url = 'https://flutter.dev';
 
@@ -52,10 +52,21 @@ class Checkout extends StatelessWidget {
 
                     ElevatedButton(
                         child: Text("Reserve Books"),
-                        onPressed: () {
+                        onPressed: () async {
+                          for (var i = 0; i < cart.length; i++) {
+                            deletefromcart(cart[i]);
+                          }
                           Navigator.pushNamed(context, '/home');
                         })
                   ]),
             )));
   }
+}
+
+//delete books from cart + move them back to marketplace
+deletefromcart(DocumentSnapshot data) {
+  final record = Record.fromSnapshot(data);
+  database.collection("books").doc(record.doc_id).update({
+    "view status": "reserved",
+  });
 }
