@@ -25,61 +25,55 @@ class _ProfileState extends State<Profile> {
   final currentName = FirebaseAuth.instance.currentUser
       .displayName; //added this variable so the user can see their username instead of a long string of numbers
 
-  getListedBooks() async {
-    var data = await database
-        .collection('books')
-        .where('lister', isEqualTo: currentUid)
-        .orderBy('price')
-        .get();
-    setState(() {
-      _allResults = data.docs;
-    });
-    return _allResults;
-  }
-
   //add logic: if user is signed in, then display the page, but if theyre not signed in, ask to sign in/up
 
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text("Profile")),
         body: Center(
-            child: Column(
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Welcome, " + currentName,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                  color: CustomColors.lsMaroon),
-            ),
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Text(
+                      "Welcome, " + currentName,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                          color: CustomColors.lsMaroon),
+                    ),
+                    Text("This is your profile page. This is where you can view all your current listings and see when your books are added to someone's cart or checked out."),
+                    SizedBox(height: 20)
+                  ]
+                ),
+              ), 
+              Text("Current Listings:"), 
+              SizedBox(height: 20),
 
-            //currently active listings:
+              //displays currently active listings:
+              DisplayBooks(),
 
-            ElevatedButton(
-                onPressed: () {
-                  getListedBooks();
-                },
-                child: Text("View Listings & Offers")),
-            DisplayBooks(),
-            Expanded(
-              child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => EditProfile(currentUid),
-                          ), //navigates to the details of the book page
-                        );
-                      },
-                      child: Text("Edit Profile"))),
-            )
-          ],
-        )));
+              //edit profile button
+              /*Expanded(
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditProfile(currentUid),
+                            ),
+                          );
+                        },
+                        child: Text("Edit Profile"))),
+              )*/
+            ],
+          )
+        )
+    );
   }
 }
 
@@ -102,7 +96,7 @@ class _DisplayBooksState extends State<DisplayBooks> {
     resultsLoaded = getBookSnapshots();
   }
 
-//only gets books in user's cart
+//only gets books that user has listed
   getBookSnapshots() async {
     var data = await database
         .collection('books')
@@ -127,7 +121,7 @@ class _DisplayBooksState extends State<DisplayBooks> {
   }
 }
 
-//build list of books in cart
+//build list of books that the user has listed
 Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
   final record = Record.fromSnapshot(data);
   return Padding(
@@ -143,33 +137,13 @@ Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
           trailing: IconButton(
               icon: Icon(Icons.delete),
               onPressed: () async {
-                //if deleted, move back to marketplace
                 await database.collection("books").doc(record.doc_id).delete();
               }),
         ),
       ));
 }
 
-/*Widget _buildListItem(
-      BuildContext context, DocumentSnapshot data) {
-        final record = Record.fromSnapshot(data);
-        return Padding(
-            key: ValueKey(record.name),
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              child: ListTile(
-                  title: Text(record.name),
-                  trailing: Text(record.price.toString()),
-                //eventually add ontap logic to delete listing
-              ),
-            )
-          );
-  }*/
-
+//Edit profile class, might be deleted
 class EditProfile extends StatefulWidget {
   @override
   final String currentUid;
