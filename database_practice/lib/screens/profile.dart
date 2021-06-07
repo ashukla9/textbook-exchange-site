@@ -20,7 +20,6 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  @override
 
   //VERY IMPORTANT! creates instance of Auth to get user information
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -31,7 +30,7 @@ class _ProfileState extends State<Profile> {
   getListedBooks() async { 
       var data = await database
           .collection('books')
-          .where('user', isEqualTo: currentUid)
+          .where('lister', isEqualTo: currentUid)
           .orderBy('price')
           .get();
       setState(() {
@@ -85,7 +84,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         child: ListTile(
                             title: Text(record.name),
-                            trailing: Text(record.numberOfOffers.toString() + " offers"), 
+                            trailing: Text(record.buyer), 
                             //maybe change to "1 offers to buy" etc
                             onTap: () async {
                             //delete from cart
