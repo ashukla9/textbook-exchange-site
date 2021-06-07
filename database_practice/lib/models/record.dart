@@ -8,7 +8,7 @@ class Record {
   final String user; //seller uid
   final String username; //seller display name
   final String condition;
-  final bool status;
+  final String status;
   final int numberOfOffers;
   final String buyer;
   final DocumentReference reference;

@@ -107,7 +107,7 @@ class _DisplayBooksState extends State<DisplayBooks> {
         .collection('books')
         .where('view status',
             isEqualTo:
-                true) //this is used to make sure the books in a user's cart are not shown here
+                "marketplace") //this is used to make sure the books in a user's cart are not shown here
         .orderBy('price')
         .get();
     setState(() {
@@ -251,7 +251,7 @@ class _DetailPageState extends State<DetailPage> {
                           .collection("books")
                           .doc(widget.listing.doc_id)
                           .update({
-                        "view status": false,
+                        "view status": "cart",
                         "buyer": auth.currentUser.uid,
                       });
                       Navigator.of(context).pushReplacementNamed('/cart');

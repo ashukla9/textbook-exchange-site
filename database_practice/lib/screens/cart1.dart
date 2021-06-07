@@ -97,7 +97,7 @@ class _DisplayBooksState extends State<DisplayBooks> {
   getBookSnapshots() async {
     var data = await database
         .collection('books')
-        .where('view status', isEqualTo: false)
+        .where('view status', isEqualTo: "cart")
         .where('buyer', isEqualTo: auth.currentUser.uid)
         .get();
     setState(() {
@@ -149,7 +149,7 @@ class _DisplayBooksState extends State<DisplayBooks> {
   deletefromcart(DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
     database.collection("books").doc(record.doc_id).update({
-      "view status": true,
+      "view status": "marketplace",
       "buyer": "N/A",
     });
   }
@@ -173,7 +173,7 @@ Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
               onPressed: () async {
                 //if deleted, move back to marketplace
                 await database.collection("books").doc(record.doc_id).update({
-                  "view status": true,
+                  "view status": "marketplace",
                   "buyer": "N/A",
                 });
                 Navigator.of(context).pushReplacementNamed('/cart');
