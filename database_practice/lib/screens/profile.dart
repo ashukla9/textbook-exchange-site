@@ -100,7 +100,6 @@ class _DisplayBooksState extends State<DisplayBooks> {
   getBookSnapshots() async {
     var data = await database
         .collection('books')
-        .where('view status', isEqualTo: "marketplace")
         .where('lister', isEqualTo: auth.currentUser.uid)
         .get();
     setState(() {
