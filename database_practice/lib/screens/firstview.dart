@@ -3,6 +3,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 import 'package:database_practice/static/colors.dart';
 
+//page for people before they log in/sign up
+//used this video tutorial (also used for signup page): https://www.youtube.com/watch?app=desktop&v=bSUdYUw4Jjs&list=PL_D-RntzgLvbbB7Uub06wW44znOoWJro4&index=21&t=0s
 class FirstView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -46,13 +48,12 @@ class FirstView extends StatelessWidget {
                     ),
                     onPressed: () {
                       Navigator.of(context).pushReplacementNamed('/login');
-                    }
-                ),
+                    }),
                 SizedBox(
                   height: _height * 0.10,
                 ),
                 Image.asset(
-                  'assets/textbooks.png', //replace this with either our own logo or smth
+                  'assets/textbooks.png',
                 ),
               ])),
         ),

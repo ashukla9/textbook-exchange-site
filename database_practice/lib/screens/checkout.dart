@@ -9,6 +9,7 @@ import 'buybook.dart';
 
 const _url = 'https://flutter.dev';
 
+//checkout page for people to officially buy books
 class Checkout extends StatelessWidget {
   final List cart;
   List sellers;
@@ -29,36 +30,32 @@ class Checkout extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-            title: Text("Sell Books"),
-        ), //will change this once we switch everything around and put it on the right pages
+          title: Text("Checkout"),
+        ),
         body: Padding(
-          padding: EdgeInsets.all(15),
-          child: SingleChildScrollView(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("Your total is: \$" + totalString,
-                    style: TextStyle(fontSize: 30),
+            padding: EdgeInsets.all(15),
+            child: SingleChildScrollView(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Your total is: \$" + totalString,
+                      style: TextStyle(fontSize: 30),
                     ), //convert total to a string
 
-                  SizedBox(height: 20), //adding space between widgets
+                    SizedBox(height: 20), //adding space between widgets
 
-                  Text(
-                      "Once you confirm your purchase / reservation, the sellers will be in contact with you with more details on how to pay."), //convert total to a string
+                    Text(
+                        "Once you confirm your purchase / reservation, the sellers will be in contact with you with more details on how to pay."), //convert total to a string
 
-                  SizedBox(height: 20),
-                  
-                  ElevatedButton(
-                      child: Text("Reserve Books"),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/home');
-                      })
-                ]
-              ),
-           )
-        )
-      );
+                    SizedBox(height: 20),
+
+                    ElevatedButton(
+                        child: Text("Reserve Books"),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/home');
+                        })
+                  ]),
+            )));
   }
 }
-
-

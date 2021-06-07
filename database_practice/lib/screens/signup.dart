@@ -4,6 +4,7 @@ import 'package:database_practice/main.dart';
 import 'package:database_practice/static/colors.dart';
 import 'package:database_practice/database.dart';
 
+//sign up page so people can join site
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 //used to fix: https://github.com/FirebaseExtended/flutterfire/issues/3213
@@ -44,6 +45,7 @@ class EmailValidator {
       return "Email can't be empty.";
     }
     if (value.contains("@lakesideschool.org")) {
+      //must be LS student to sign in
       return null;
     } else {
       return "Please use your Lakeside email.";
@@ -94,6 +96,7 @@ class _SignUpViewState extends State<SignUpView> {
   final formKey = GlobalKey<FormState>();
   String _email, _password, _name, _error;
 
+//switches sign up form depending on whether you're on sign in or sign up page
   void switchFormState(String state) {
     formKey.currentState.reset();
     if (state == "signUp") {
@@ -277,7 +280,7 @@ class _SignUpViewState extends State<SignUpView> {
 
   List<Widget> buildButtons() {
     String _switchButtonText, _newFormState, _submitButtonText;
-
+//switches sign up button depending on whether you're on sign in or sign up page
     if (authFormType == AuthFormType.signIn) {
       _switchButtonText = "Create New Account";
       _newFormState = "signUp";

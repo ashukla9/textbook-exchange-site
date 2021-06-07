@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// a class for the book listings
 class Record {
-  // a class for the book listings, probably should rename to Listing
   final String name;
   final double price;
   final String author;
@@ -11,11 +11,11 @@ class Record {
   final bool status;
   final int numberOfOffers;
   final String buyer;
-  //final String description;
   final DocumentReference reference;
 
   final String doc_id;
 
+//gets the values from the database + add them to the record
   Record.fromMap(Map<String, dynamic> map, {this.reference})
       : name = map['name'],
         price = map['price'],
@@ -27,7 +27,7 @@ class Record {
         numberOfOffers = map['numberOfOffers'],
         buyer = map['buyer'],
         doc_id = reference
-            .id; //https://stackoverflow.com/questions/58844095/how-to-get-firestore-document-id
+            .id; //used this to get the document id: https://stackoverflow.com/questions/58844095/how-to-get-firestore-document-id
 
   Record.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data(), reference: snapshot.reference);

@@ -1,7 +1,6 @@
 //display the 'profile' of the student
 //what classes they're taking, what grade they are, etc.
 //edit profile functionality: have users add their payment urls
-//if we are to expand, then we would add 'recommended books' here.
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,8 +9,7 @@ import 'package:database_practice/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:database_practice/models/record.dart';
 
-//right now this functions more as an "edit profile" page lol
-
+//profile page
 class Profile extends StatefulWidget {
   @override
   _ProfileState createState() {
@@ -23,7 +21,7 @@ class _ProfileState extends State<Profile> {
 
   //VERY IMPORTANT! creates instance of Auth to get user information
   final FirebaseAuth auth = FirebaseAuth.instance;
-  List _allResults = []; 
+  List _allResults = [];
   final currentUid = FirebaseAuth.instance.currentUser.uid;
   final currentName = FirebaseAuth.instance.currentUser.displayName; //added this variable so the user can see their username instead of a long string of numbers
     
@@ -42,83 +40,81 @@ class _ProfileState extends State<Profile> {
   //add logic: if user is signed in, then display the page, but if theyre not signed in, ask to sign in/up
 
   Widget build(BuildContext context) {
- 
     return Scaffold(
-        appBar: AppBar(
-            title: Text("Profile") //will change this once we switch everything around and put it on the right pages
-            ),
+        appBar: AppBar(title: Text("Profile")),
         body: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                  height: 20,
-                ),
-              Text("Welcome, " + currentName,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30, 
-                    color: CustomColors.lsMaroon),
-              ),
+            child: Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              "Welcome, " + currentName,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                  color: CustomColors.lsMaroon),
+            ),
 
-              //currently active listings: 
-              
-              ElevatedButton(
-                onPressed: () { getListedBooks(); }, 
-                child: Text("View Listings & Offers")
-              ),
+            //currently active listings:
 
-              Expanded( //builds a list to display all books that the user has listed
-                child: ListView.builder( 
+            ElevatedButton(
+                onPressed: () {
+                  getListedBooks();
+                },
+                child: Text("View Listings & Offers")),
+
+            Expanded(
+              //builds a list to display all books that the user has listed
+              child: ListView.builder(
                   itemCount: _allResults.length,
                   itemBuilder: (context, index) {
                     final item = _allResults[index];
                     final record = Record.fromSnapshot(item);
                     final bookID = record.doc_id;
                     return Padding(
-                      key: ValueKey(record.name),
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        child: ListTile(
-                            title: Text(record.name),
-                            trailing: Text(record.buyer), 
-                            //maybe change to "1 offers to buy" etc
-                            onTap: () async {
-                            //delete from cart
-                              database.collection('books').doc(bookID).delete();
-                              Navigator.pushNamed(context, '/profile');
-                            }),
-                      ));
-                  }
-                ),
-              ),
+                        key: ValueKey(record.name),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          child: ListTile(
+                              title: Text(record.name),
+                              trailing: Text(
+                                  record.numberOfOffers.toString() + " offers"),
+                              //maybe change to "1 offers to buy" etc
+                              onTap: () async {
+                                //delete from cart
+                                database
+                                    .collection('books')
+                                    .doc(bookID)
+                                    .delete();
+                                Navigator.pushNamed(context, '/profile');
+                              }),
+                        ));
+                  }),
+            ),
 
-              Expanded(
-                child: Align(
-                alignment: Alignment.bottomCenter,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EditProfile(currentUid),
-                      ), //navigates to the details of the book page
-                    );
-                  },
-                  child: Text("Edit Profile"))
-              ),
-              )
-            ],
-          )
-        )
-      );
-    
+            Expanded(
+              child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditProfile(currentUid),
+                          ), //navigates to the details of the book page
+                        );
+                      },
+                      child: Text("Edit Profile"))),
+            )
+          ],
+        )));
   }
-
-
 
   /*Widget _buildListItem(
       BuildContext context, DocumentSnapshot data) {
@@ -171,7 +167,8 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(
                 height: 20,
               ),
-              Text("Enter your new payment url(i.e. https://paypal.me/faketester):" ),
+              Text(
+                  "Enter your new payment url(i.e. https://paypal.me/faketester):"),
               Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: TextField(

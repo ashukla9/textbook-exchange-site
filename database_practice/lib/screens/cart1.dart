@@ -4,10 +4,10 @@ import 'package:database_practice/database.dart';
 import 'package:database_practice/static/colors.dart';
 import 'package:database_practice/models/record.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:countdown_flutter/countdown_flutter.dart';
 import 'checkout.dart';
 
-//Once you close the app or log out, the cart should empty itself out
-
+//cart where people can see books they've saved
 class Cart1 extends StatefulWidget {
   @override
   _Cart1State createState() {
@@ -19,10 +19,11 @@ class _Cart1State extends State<Cart1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Cart'),),
-        body: DisplayBooks(),
-        endDrawer: Drawer(
+      appBar: AppBar(
+        title: Text('Cart'),
+      ),
+      body: DisplayBooks(),
+      endDrawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the drawer if there isn't enough vertical
         // space to fit everything.
@@ -69,11 +70,11 @@ class _Cart1State extends State<Cart1> {
           ],
         ),
       ),
-      );
+    );
   }
 }
 
-//DISPLAYS BOOK LIST
+//displays book list
 class DisplayBooks extends StatefulWidget {
   @override
   _DisplayBooksState createState() {
@@ -92,6 +93,7 @@ class _DisplayBooksState extends State<DisplayBooks> {
     resultsLoaded = getBookSnapshots();
   }
 
+//only gets books in user's cart
   getBookSnapshots() async {
     var data = await database
         .collection('books')
@@ -106,59 +108,76 @@ class _DisplayBooksState extends State<DisplayBooks> {
 
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
-        child: Column(
-          children: <Widget>[
-            Text("This is your shopping cart. View the menu by tapping the top right icon. Tap the trash can to remove unwanted books. When you're ready to proceed, press checkout."),
-
-            SizedBox( height: 20,),
-            
-            Expanded(
-              child: ListView.builder(
-                itemCount: _allResults.length,
-                itemBuilder: (BuildContext context, int index) =>
-                    _buildListItem(context, _allResults[index]),
-              ),
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Checkout(cart: _allResults),
-                      ));
-                },
-                child: Text("Checkout")),
-            
-
-          ]
-        )
-      );
+        child: Column(children: <Widget>[
+      if (_allResults.length != 0) //if there are books in the cart...
+        Countdown(
+          //use a timer so that books don't sit in a user's cart indefinitely and then aren't able to be displayed in marketplace
+          duration: Duration(minutes: 25),
+          onFinish: () async {
+            //when it's finished, the items are deleted from the cart and visible in the marketplace again
+            for (var i = 0; i < _allResults.length; i++) {
+              deletefromcart(_allResults[i]);
+            }
+            await Future.delayed(Duration(seconds: 1));
+            Navigator.pushReplacementNamed(context, '/buyBooks');
+          },
+          builder: (BuildContext ctx, Duration remaining) {
+            return Text('');
+          },
+        ),
+      Expanded(
+        child: ListView.builder(
+          itemCount: _allResults.length,
+          itemBuilder: (BuildContext context, int index) =>
+              _buildListItem(context, _allResults[index]),
+        ),
+      ),
+      ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      Checkout(cart: _allResults), //goes to checkout
+                ));
+          },
+          child: Text("Checkout")),
+    ]));
   }
 
-  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
+//delete books from cart + move them back to marketplace
+  deletefromcart(DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
-    return Padding(
-        key: ValueKey(record.name),
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          child: ListTile(
-            title: Text(record.name),
-            trailing: IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () async {
-                  await database.collection("books").doc(record.doc_id).update({
-                    "view status": true,
-                    "buyer": "N/A",
-                  });
-                  Navigator.pop(context);
-                  Navigator.of(context).pushReplacementNamed('/cart');
-                }),
-          ),
-        ));
+    database.collection("books").doc(record.doc_id).update({
+      "view status": true,
+      "buyer": "N/A",
+    });
   }
+}
+
+//build list of books in cart
+Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
+  final record = Record.fromSnapshot(data);
+  return Padding(
+      key: ValueKey(record.name),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        child: ListTile(
+          title: Text(record.name),
+          trailing: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () async {
+                //if deleted, move back to marketplace
+                await database.collection("books").doc(record.doc_id).update({
+                  "view status": true,
+                  "buyer": "N/A",
+                });
+                Navigator.of(context).pushReplacementNamed('/cart');
+              }),
+        ),
+      ));
 }
