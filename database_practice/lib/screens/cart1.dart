@@ -151,6 +151,7 @@ class _DisplayBooksState extends State<DisplayBooks> {
     database.collection("books").doc(record.doc_id).update({
       "view status": "marketplace",
       "buyer": "N/A",
+      "buyer email": "N/A",
     });
   }
 }
@@ -175,6 +176,7 @@ Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
                 await database.collection("books").doc(record.doc_id).update({
                   "view status": "marketplace",
                   "buyer": "N/A",
+                  "buyer email": "N/A",
                 });
                 Navigator.of(context).pushReplacementNamed('/cart');
               }),

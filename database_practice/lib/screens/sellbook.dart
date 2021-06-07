@@ -155,7 +155,7 @@ class _SellBooksState extends State<SellBooks> {
                                     "lister": auth.currentUser.uid,
                                     "lister username":
                                         auth.currentUser.displayName,
-                                    "numberOfOffers": 0,
+                                    "buyer email:": "N/A",
                                     "buyer": "N/A",
                                   })
                                   .then((value) => print("Textbook added"))

@@ -166,8 +166,7 @@ class _DisplayBooksState extends State<DisplayBooks> {
                     builder: (context) => DetailPage(record),
                   ), //navigates to the details of the book page
                 );
-              }
-          ),
+              }),
         ));
   }
 }
@@ -254,6 +253,7 @@ class _DetailPageState extends State<DetailPage> {
                           .update({
                         "view status": "cart",
                         "buyer": auth.currentUser.uid,
+                        "buyer email": auth.currentUser.email,
                       });
                       Navigator.of(context).pushReplacementNamed('/cart');
                     },

@@ -9,7 +9,7 @@ class Record {
   final String username; //seller display name
   final String condition;
   final String status;
-  final int numberOfOffers;
+  final String buyeremail;
   final String buyer;
   final DocumentReference reference;
 
@@ -24,7 +24,7 @@ class Record {
         user = map['lister'],
         username = map['lister username'],
         status = map['view status'],
-        numberOfOffers = map['numberOfOffers'],
+        buyeremail = map['buyer email'],
         buyer = map['buyer'],
         doc_id = reference
             .id; //used this to get the document id: https://stackoverflow.com/questions/58844095/how-to-get-firestore-document-id
@@ -34,5 +34,5 @@ class Record {
 
   @override
   String toString() =>
-      "Record<$name:$price:$author:$condition:$user:$username:$status:$numberOfOffers:$doc_id>";
+      "Record<$name:$price:$author:$condition:$user:$username:$status:$buyer:$buyeremail:$doc_id>";
 }

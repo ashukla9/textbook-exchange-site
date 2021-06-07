@@ -8,6 +8,7 @@ import 'package:database_practice/static/colors.dart';
 import 'package:database_practice/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:database_practice/models/record.dart';
+import 'package:database_practice/models/tbuser.dart';
 
 //profile page
 class Profile extends StatefulWidget {
@@ -29,17 +30,13 @@ class _ProfileState extends State<Profile> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Profile"),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.refresh), 
+        appBar: AppBar(title: Text("Profile"), actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.refresh),
               onPressed: () {
                 Navigator.pushNamed(context, '/profile');
-              }
-            )
-          ]
-        ),
+              })
+        ]),
         body: Center(
             child: Column(
           children: [
@@ -53,24 +50,21 @@ class _ProfileState extends State<Profile> {
                       fontSize: 30,
                       color: CustomColors.lsMaroon),
                 ),
-                SizedBox(height:10),
+                SizedBox(height: 10),
                 Text(
                     "This is your profile page, where you can view all your book listings. If the outline is red, that means someone has reserved your book! Click to find out more details. It's up to you to contact the interested customer and make that transaction! When it's complete, press the delete button to permanently remove your listing from the database."),
                 SizedBox(height: 20)
               ]),
             ),
             Text("Your Listings:",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: CustomColors.lsMaroon
-                )
-            ),
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: CustomColors.lsMaroon)),
             SizedBox(height: 20),
 
             //displays currently active listings:
             DisplayBooks(),
-
           ],
         )));
   }
@@ -141,7 +135,7 @@ Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
                       builder: (context) => DetailPage(record),
                     ), //navigates to the details of the book page
                   );
-              },
+                },
                 trailing: IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () async {
@@ -188,21 +182,8 @@ final FirebaseAuth auth = FirebaseAuth.instance;
 class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
-
     //get the name & email of the interested buyer based off of uid
-    String buyeruid = widget.listing.user.toString();
-    
-    var buyer;
-
-    //HELPPPPPPPPP 
-   //how to get the email then?? retrieve a single field of a single doc? 
-    getBuyer() async {
-      var data = await database.collection("users").doc(buyeruid).get();
-      setState(() {
-         buyer = data;     
-      });
-      return "complete";
-    }
+    String buyeruid = widget.listing.buyeremail;
 
     return Center(
       child: Card(
@@ -227,11 +208,9 @@ class _DetailPageState extends State<DetailPage> {
                   height: 20,
                 ), //SizedBox
                 Text(
-
-                  //HELPPPPPPPPP 
+                  "Email: " + buyeruid,
+                  //HELPPPPPPPPP
                   //THIS IS WHERE THE EMAIL IS SUPPOSD TO BE DISPLAYED
-                  buyer.getString("email"),
-
 
                   style: TextStyle(
                     fontSize: 30,
